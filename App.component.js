@@ -1,3 +1,5 @@
+import { CounterComponent } from "./Counter.component.js";
+
 export function AppComponent() {
   const element = document.createElement('div')
 
@@ -40,8 +42,8 @@ AppComponent.render = ({element, localState, props, liba}) => {
 
   switch (localState.page) {
     case 'counter': {
-      const counterInstance = 'COUNTER'
-      element.append(counterInstance)
+      const counterInstance = CounterComponent()
+      element.append(counterInstance.element)
 
       break
     }
