@@ -1,4 +1,5 @@
 import { CounterComponent } from "./Counter.component.js";
+import { TodolistComponent } from "./Todolist.component.js";
 
 export function AppComponent() {
   const element = document.createElement('div')
@@ -48,8 +49,8 @@ AppComponent.render = ({element, localState, props, liba}) => {
       break
     }
     case 'todolist': {
-      const todolistInstance = 'TODOLIST'
-      element.append(todolistInstance)
+      const todolistInstance = TodolistComponent()
+      element.append(todolistInstance.element)
 
       break
     }
