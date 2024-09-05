@@ -13,6 +13,7 @@ export function TodolistComponent() {
     ],
     setIsDone(taskId, isDone) {
       localState.tasks = localState.tasks.map((task) => task.id === taskId ? { ...task, isDone } : task)
+      TodolistComponent.render({ element, localState })
     },
   }
 
@@ -26,6 +27,7 @@ export function TodolistComponent() {
 
 TodolistComponent.render = ({ element, localState }) => {
   console.log('TodolistComponent render')
+  element.innerHTML = ''
 
   element.append('TODOLIST')
 

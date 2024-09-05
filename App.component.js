@@ -6,6 +6,7 @@ export function AppComponent() {
 
   const localState = {
     page: 'todolist',
+    childrenComponents: [],
   }
 
   AppComponent.render({ element, localState })
@@ -19,6 +20,10 @@ export function AppComponent() {
 
 AppComponent.render = ({element, localState, props, liba}) => {
   console.log('App render')
+  element.innerHTML = ''
+
+  localState.childrenComponents.forEach(cc => cc.cleanup?.())
+  localState.childrenComponents = []
 
   const pageSelector = document.createElement('select')
 
@@ -44,12 +49,16 @@ AppComponent.render = ({element, localState, props, liba}) => {
   switch (localState.page) {
     case 'counter': {
       const counterInstance = CounterComponent()
+      localState.childrenComponents.push(counterInstance)
+
       element.append(counterInstance.element)
 
       break
     }
     case 'todolist': {
       const todolistInstance = TodolistComponent()
+      localState.childrenComponents.push(todolistInstance)
+
       element.append(todolistInstance.element)
 
       break

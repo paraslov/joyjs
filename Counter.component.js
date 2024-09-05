@@ -12,13 +12,20 @@ export function CounterComponent() {
     CounterComponent.render({ element, localState })
   }, 1000)
 
+  CounterComponent.render({ element, localState })
+
   return {
     element,
     localState,
+    cleanup: function () {
+      clearInterval(interval)
+    },
   }
 }
 
 CounterComponent.render = ({ element, localState }) => {
   console.log('CounterComponent render')
+  element.innerHTML = ''
+
   element.append(localState.count)
 }
