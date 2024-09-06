@@ -12,8 +12,6 @@ export function CounterComponent() {
     CounterComponent.render({ element, localState })
   }, 1000)
 
-  CounterComponent.render({ element, localState })
-
   return {
     element,
     localState,

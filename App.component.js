@@ -9,8 +9,6 @@ export function AppComponent() {
     childrenComponents: [],
   }
 
-  AppComponent.render({ element, localState })
-
   return {
     localState,
     element,
@@ -18,7 +16,7 @@ export function AppComponent() {
   }
 }
 
-AppComponent.render = ({element, localState, props, liba}) => {
+AppComponent.render = ({ element, localState, joy }) => {
   console.log('App render')
   element.innerHTML = ''
 
@@ -43,12 +41,12 @@ AppComponent.render = ({element, localState, props, liba}) => {
   pageSelector.addEventListener("change", () => {
     localState.page = pageSelector.value
 
-    AppComponent.render({element, localState})
+    AppComponent.render({ element, localState, joy })
   })
 
   switch (localState.page) {
     case 'counter': {
-      const counterInstance = CounterComponent()
+      const counterInstance = joy.create(CounterComponent)
       localState.childrenComponents.push(counterInstance)
 
       element.append(counterInstance.element)
@@ -56,7 +54,7 @@ AppComponent.render = ({element, localState, props, liba}) => {
       break
     }
     case 'todolist': {
-      const todolistInstance = TodolistComponent()
+      const todolistInstance = joy.create(TodolistComponent)
       localState.childrenComponents.push(todolistInstance)
 
       element.append(todolistInstance.element)

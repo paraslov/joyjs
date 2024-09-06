@@ -18,15 +18,13 @@ export function TodolistComponent() {
     childrenComponents: [],
   }
 
-  TodolistComponent.render({ element, localState })
-
   return {
     element,
     localState,
   }
 }
 
-TodolistComponent.render = ({ element, localState }) => {
+TodolistComponent.render = ({ element, localState, joy }) => {
   console.log('TodolistComponent render')
   element.innerHTML = ''
   localState.childrenComponents.forEach(cc => cc.cleanup?.())
@@ -53,7 +51,7 @@ TodolistComponent.render = ({ element, localState }) => {
       continue
     }
 
-    const taskInstance = TaskComponent({ task: localState.tasks[i], setIsDone: localState.setIsDone })
+    const taskInstance = joy.create(TaskComponent, { task: localState.tasks[i], setIsDone: localState.setIsDone })
     localState.childrenComponents.push(taskInstance)
 
     element.append(taskInstance.element)
