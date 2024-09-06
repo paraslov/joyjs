@@ -18,7 +18,6 @@ export function AppComponent() {
 
 AppComponent.render = ({ element, localState, joy }) => {
   console.log('App render')
-  element.innerHTML = ''
 
   localState.childrenComponents.forEach(cc => cc.cleanup?.())
   localState.childrenComponents = []
@@ -41,7 +40,7 @@ AppComponent.render = ({ element, localState, joy }) => {
   pageSelector.addEventListener("change", () => {
     localState.page = pageSelector.value
 
-    AppComponent.render({ element, localState, joy })
+    joy.refresh()
   })
 
   switch (localState.page) {

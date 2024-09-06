@@ -1,4 +1,4 @@
-export function CounterComponent() {
+export function CounterComponent(props, { joy }) {
   console.log('CounterComponent mount')
 
   const element = document.createElement('div')
@@ -9,7 +9,7 @@ export function CounterComponent() {
 
   const interval = setInterval(() => {
     localState.count++
-    CounterComponent.render({ element, localState })
+    joy.refresh()
   }, 1000)
 
   return {
@@ -23,7 +23,6 @@ export function CounterComponent() {
 
 CounterComponent.render = ({ element, localState }) => {
   console.log('CounterComponent render')
-  element.innerHTML = ''
 
   element.append(localState.count)
 }

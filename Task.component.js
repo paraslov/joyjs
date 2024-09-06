@@ -2,8 +2,6 @@ export function TaskComponent(props) {
   console.log('TaskComponent mount')
   const element = document.createElement('li')
 
-  TaskComponent.render({ element, props })
-
   return {
     element,
     props,
@@ -15,7 +13,6 @@ export function TaskComponent(props) {
 
 TaskComponent.render = ({ element, props, localState }) => {
   console.log('TaskComponent render')
-  element.innerHTML = ''
 
   element.append(props.task.title)
 
