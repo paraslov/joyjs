@@ -1,14 +1,28 @@
 export const Joy = {
   create(ComponentFunction, props = {}) {
-    const componentInstance = ComponentFunction(props)
+    const componentJoyInstance = {
+      refresh() {
+        componentInstance.element.innerHTML = ''
+        renderComponent()
+      }
+    }
+    const renderJoyInstance = {
+      create: Joy.create,
+    }
+    Object.setPrototypeOf(renderJoyInstance, componentJoyInstance);
 
-    ComponentFunction.render({
-      element: componentInstance.element,
-      localState: componentInstance.localState,
-      props: componentInstance.props,
-      joy: Joy,
-    })
+    const componentInstance = ComponentFunction(props, { joy: componentJoyInstance })
 
+    function renderComponent() {
+      ComponentFunction.render({
+        element: componentInstance.element,
+        localState: componentInstance.localState,
+        props: componentInstance.props,
+        joy: renderJoyInstance,
+      })
+    }
+
+    renderComponent()
     return componentInstance
   }
 }
