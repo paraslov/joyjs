@@ -15,6 +15,7 @@ export function TodolistComponent() {
       localState.tasks = localState.tasks.map((task) => task.id === taskId ? { ...task, isDone } : task)
       TodolistComponent.render({ element, localState })
     },
+    childrenComponents: [],
   }
 
   TodolistComponent.render({ element, localState })
@@ -28,11 +29,32 @@ export function TodolistComponent() {
 TodolistComponent.render = ({ element, localState }) => {
   console.log('TodolistComponent render')
   element.innerHTML = ''
+  localState.childrenComponents.forEach(cc => cc.cleanup?.())
 
   element.append('TODOLIST')
 
-  for (let task of localState.tasks) {
-    const taskInstance = TaskComponent({ task, setIsDone: localState.setIsDone })
+  for (let i = 0; i < localState.tasks.length; i++) {
+    const cachedComponent = localState.childrenComponents[i]
+
+    if (cachedComponent) {
+      if (cachedComponent.props.task !== localState.tasks[i]) {
+        cachedComponent.props.task = localState.tasks[i]
+
+        TaskComponent.render({
+          element: cachedComponent.element,
+          props: {
+            task: localState.tasks[i],
+            setIsDone: localState.setIsDone,
+          }
+        })
+      }
+
+      element.append(cachedComponent.element)
+      continue
+    }
+
+    const taskInstance = TaskComponent({ task: localState.tasks[i], setIsDone: localState.setIsDone })
+    localState.childrenComponents.push(taskInstance)
 
     element.append(taskInstance.element)
   }

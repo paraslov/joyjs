@@ -7,6 +7,9 @@ export function TaskComponent(props) {
   return {
     element,
     props,
+    cleanup: function () {
+      console.log('task:execute:cleanup')
+    }
   }
 }
 
