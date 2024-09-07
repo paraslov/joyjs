@@ -15,7 +15,6 @@ export function TodolistComponent(props, { joy }) {
       localState.tasks = localState.tasks.map((task) => task.id === taskId ? { ...task, isDone } : task)
       joy.refresh()
     },
-    childrenComponents: [],
   }
 
   return {
@@ -26,8 +25,6 @@ export function TodolistComponent(props, { joy }) {
 
 TodolistComponent.render = ({ element, localState, joy }) => {
   console.log('TodolistComponent render')
-  localState.childrenComponents.forEach(cc => cc.cleanup?.())
-  localState.childrenComponents = []
 
   element.append('TODOLIST')
 
@@ -52,7 +49,6 @@ TodolistComponent.render = ({ element, localState, joy }) => {
     // }
 
     const taskInstance = joy.create(TaskComponent, { task: localState.tasks[i], setIsDone: localState.setIsDone })
-    localState.childrenComponents.push(taskInstance)
 
     element.append(taskInstance.element)
   }
