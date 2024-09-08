@@ -12,7 +12,9 @@ export function TodolistComponent(props, { joy }) {
       { id: 3, title: 'Pussy cat', isDone: false },
     ],
     setIsDone(taskId, isDone) {
-      localState.tasks = localState.tasks.map((task) => task.id === taskId ? { ...task, isDone } : task)
+      localState.tasks = localState.tasks.map((task) => task.id === taskId
+        ? { ...task, isDone, title: task.title + '!' }
+        : task)
       joy.refresh()
     },
   }
