@@ -6,10 +6,12 @@ export function CounterComponent(props, { joy }) {
   const localState = {
     count: 1,
   }
+  // const [state, setState] = joy.useState({ count: 1 })
 
   const interval = setInterval(() => {
     localState.count++
     joy.refresh()
+    // setState(state.count + 1)
   }, 1000)
 
   return {

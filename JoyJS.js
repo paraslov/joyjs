@@ -1,7 +1,25 @@
-import { checkSameProps } from "./checkSameProps.js";
+import {checkSameProps} from "./checkSameProps.js";
 
-export const Joy = {
+class JoyJS {
   create(ComponentFunction, props = {}, { parentInstance } = { parentInstance: null }) {
+    const renderJoy = {
+      create(ChildrenComponentFunction, props) {
+        componentInstance.childrenIndex++
+        const cachedComponentInstance = componentInstance.childrenComponents?.[componentInstance.childrenIndex]
+
+        if (cachedComponentInstance) {
+          const isComponentSameTypeAsItWas = cachedComponentInstance.type === ChildrenComponentFunction
+
+          if (isComponentSameTypeAsItWas) {
+            return getUpdatedComponent(cachedComponentInstance, props)
+          }
+
+          delete componentInstance.childrenComponents[componentInstance.childrenIndex]
+        }
+
+        return Joy.create(ChildrenComponentFunction, props, {parentInstance: componentInstance})
+      },
+    }
     const componentJoy = {
       refresh() {
         componentInstance.element.innerHTML = ''
@@ -10,58 +28,78 @@ export const Joy = {
           componentInstance.childrenComponents.forEach(cc => cc.cleanup?.())
         }
 
-        renderComponent()
+        renderComponent(componentInstance, ComponentFunction, renderJoy)
       }
-    }
-    const renderJoy = {
-      create(ChildrenComponentFunction, props) {
-        componentInstance.childrenIndex++
-        const cachedComponentInstance = componentInstance.childrenComponents?.[componentInstance.childrenIndex]
-
-        if (cachedComponentInstance) {
-          if (cachedComponentInstance.type === ChildrenComponentFunction) {
-            if (checkSameProps(props, cachedComponentInstance.props)) {
-              return cachedComponentInstance
-            } else {
-              cachedComponentInstance.props = props
-              cachedComponentInstance.refresh()
-
-              return cachedComponentInstance
-            }
-          }
-
-          delete componentInstance.childrenComponents[componentInstance.childrenIndex]
-        }
-
-        const childrenComponentInstance = Joy.create(ChildrenComponentFunction, props, { parentInstance: componentInstance })
-
-        return childrenComponentInstance
-      },
     }
     Object.setPrototypeOf(renderJoy, componentJoy); // inherit refresh method
 
-    const componentInstance = ComponentFunction(props, { joy: componentJoy })
-    componentInstance.type = ComponentFunction
-    componentInstance.refresh = componentJoy.refresh
+    const componentInstance = getComponentInstance(ComponentFunction, props, componentJoy)
 
     if (parentInstance) {
-      if (!parentInstance.childrenComponents) parentInstance.childrenComponents = []
-
-      parentInstance.childrenComponents[parentInstance.childrenIndex] = componentInstance
+      setParentChildrenComponents(parentInstance, componentInstance)
     }
 
-    function renderComponent() {
-      componentInstance.childrenIndex = -1
+    renderComponent(componentInstance, ComponentFunction, renderJoy)
 
-      ComponentFunction.render({
-        element: componentInstance.element,
-        localState: componentInstance.localState,
-        props: componentInstance.props,
-        joy: renderJoy,
-      })
-    }
-
-    renderComponent()
     return componentInstance
   }
 }
+
+function createRenderJoy (componentInstance, Joy) {
+  return {
+    create(ChildrenComponentFunction, props) {
+      componentInstance.childrenIndex++
+      const cachedComponentInstance = componentInstance.childrenComponents?.[componentInstance.childrenIndex]
+
+      if (cachedComponentInstance) {
+        const isComponentSameTypeAsItWas = cachedComponentInstance.type === ChildrenComponentFunction
+
+        if (isComponentSameTypeAsItWas) {
+          return getUpdatedComponent(cachedComponentInstance, props)
+        }
+
+        delete componentInstance.childrenComponents[componentInstance.childrenIndex]
+      }
+
+      return Joy.create(ChildrenComponentFunction, props, {parentInstance: componentInstance})
+    },
+  }
+}
+
+function getComponentInstance(ComponentFunction, props, componentJoy) {
+  const componentInstance = ComponentFunction(props, { joy: componentJoy })
+  componentInstance.type = ComponentFunction
+  componentInstance.refresh = componentJoy.refresh
+
+  return componentInstance
+}
+
+function renderComponent(componentInstance, ComponentFunction, renderJoy) {
+  componentInstance.childrenIndex = -1
+
+  ComponentFunction.render({
+    element: componentInstance.element,
+    localState: componentInstance.localState,
+    props: componentInstance.props,
+    joy: renderJoy,
+  })
+}
+
+function getUpdatedComponent(cachedComponentInstance, props) {
+  if (checkSameProps(props, cachedComponentInstance.props)) {
+    return cachedComponentInstance
+  }
+
+  cachedComponentInstance.props = props
+  cachedComponentInstance.refresh()
+
+  return cachedComponentInstance
+}
+
+function setParentChildrenComponents(parentInstance, componentInstance) {
+  if (!parentInstance.childrenComponents) parentInstance.childrenComponents = []
+
+  parentInstance.childrenComponents[parentInstance.childrenIndex] = componentInstance
+}
+
+export const Joy = new JoyJS()
