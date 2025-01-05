@@ -3,28 +3,26 @@ export function CounterComponent(props, { joy }) {
 
   const element = document.createElement('div')
 
-  const localState = {
-    count: 1,
-  }
-  // const [state, setState] = joy.useState({ count: 1 })
+  const [state, setState] = joy.useState(1)
 
   const interval = setInterval(() => {
-    localState.count++
-    joy.refresh()
-    // setState(state.count + 1)
+
+    setState((prev) => {
+      return prev + 1
+    })
   }, 1000)
 
   return {
     element,
-    localState,
     cleanup: function () {
       clearInterval(interval)
     },
   }
 }
 
-CounterComponent.render = ({ element, localState }) => {
+CounterComponent.render = ({ element, componentState }) => {
+  const [state] = componentState
   console.log('CounterComponent render')
 
-  element.append(localState.count)
+  element.append(state)
 }

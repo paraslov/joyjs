@@ -13,12 +13,13 @@ class JoyJS {
 
     renderJoy.setComponentInstance(componentInstance)
     componentJoy.setComponentInstance(componentInstance)
+    const componentState = componentJoy.getComponentState()
 
     if (parentInstance) {
       setParentChildrenComponents(parentInstance, componentInstance)
     }
 
-    renderComponent(componentInstance, ComponentFunction, renderJoy)
+    renderComponent(componentInstance, ComponentFunction, renderJoy, componentState)
 
     return componentInstance
   }
@@ -59,6 +60,8 @@ function createRenderJoy(getComponentInstance, Joy) {
 // Factory to create componentJoy
 function createComponentJoy(getComponentInstance, ComponentFunction, renderJoy) {
   let componentInstance = null
+  let state = {value: null}
+  let setStateFunction = () => {}
 
   const componentJoy = {
     refresh() {
@@ -72,11 +75,30 @@ function createComponentJoy(getComponentInstance, ComponentFunction, renderJoy) 
         componentInstance.childrenComponents.forEach(cc => cc.cleanup?.())
       }
 
-      renderComponent(componentInstance, ComponentFunction, renderJoy)
+      renderComponent(componentInstance, ComponentFunction, renderJoy, [state.value, setStateFunction])
+    },
+    useState(initialState) {
+      if (state.value === null) {
+        state = { value: initialState }
+      }
+
+      setStateFunction = (newState) => {
+        if (typeof newState === 'function') {
+          state.value = newState(state.value)
+        } else {
+          state.value = newState
+        }
+        this.refresh()
+      }
+
+      return [state.value, setStateFunction]
     },
     setComponentInstance(instance) {
       componentInstance = instance
     },
+    getComponentState() {
+      return [state.value, setStateFunction]
+    }
   }
 
   return componentJoy
@@ -90,14 +112,16 @@ function getComponentInstance(ComponentFunction, props, componentJoy) {
   return componentInstance
 }
 
-function renderComponent(componentInstance, ComponentFunction, renderJoy) {
+function renderComponent(componentInstance, ComponentFunction, renderJoy, componentState) {
   componentInstance.childrenIndex = -1
+  console.log('@> renderComponent com state: ', componentState)
 
   ComponentFunction.render({
     element: componentInstance.element,
     localState: componentInstance.localState,
     props: componentInstance.props,
     joy: renderJoy,
+    componentState,
   })
 }
 
