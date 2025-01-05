@@ -25,6 +25,7 @@ class JoyJS {
   }
 }
 
+// used into component render method
 function createRenderJoy(getComponentInstance, Joy) {
   let componentInstance = null
 
@@ -57,7 +58,7 @@ function createRenderJoy(getComponentInstance, Joy) {
   return renderJoy
 }
 
-// Factory to create componentJoy
+// used in component
 function createComponentJoy(getComponentInstance, ComponentFunction, renderJoy) {
   let componentInstance = null
   let state = {value: null}
