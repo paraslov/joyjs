@@ -62,7 +62,7 @@ function createRenderJoy(getComponentInstance, Joy) {
 function createComponentJoy(getComponentInstance, ComponentFunction, renderJoy) {
   let componentInstance = null
   let state = {value: null}
-  let setStateFunction = () => {}
+  let setStateFunction = null
 
   const componentJoy = {
     refresh() {
@@ -83,13 +83,15 @@ function createComponentJoy(getComponentInstance, ComponentFunction, renderJoy) 
         state = { value: initialState }
       }
 
-      setStateFunction = (newState) => {
-        if (typeof newState === 'function') {
-          state.value = newState(state.value)
-        } else {
-          state.value = newState
+      if (setStateFunction === null) {
+        setStateFunction = (newState) => {
+          if (typeof newState === 'function') {
+            state.value = newState(state.value)
+          } else {
+            state.value = newState
+          }
+          this.refresh()
         }
-        this.refresh()
       }
 
       return [state.value, setStateFunction]
@@ -115,7 +117,6 @@ function getComponentInstance(ComponentFunction, props, componentJoy) {
 
 function renderComponent(componentInstance, ComponentFunction, renderJoy, componentState) {
   componentInstance.childrenIndex = -1
-  console.log('@> renderComponent com state: ', componentState)
 
   ComponentFunction.render({
     element: componentInstance.element,
