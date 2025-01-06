@@ -1,21 +1,18 @@
 import { CounterComponent } from "./Counter.component.js";
 import { TodolistComponent } from "./Todolist.component.js";
 
-export function AppComponent() {
+export function AppComponent(_, { joy }) {
   const element = document.createElement('div')
-
-  const localState = {
-    page: 'todolist',
-  }
+  joy.useState('todolist')
 
   return {
-    localState,
     element,
   }
 }
 
-AppComponent.render = ({ element, localState, joy }) => {
+AppComponent.render = ({ element, componentState, joy }) => {
   console.log('App render')
+  const [page, setPage] = componentState
 
   const pageSelector = document.createElement('select')
 
@@ -28,17 +25,15 @@ AppComponent.render = ({ element, localState, joy }) => {
   todolistOption.value = 'todolist'
 
   pageSelector.append(counterPageOption, todolistOption)
-  pageSelector.value = localState.page
+  pageSelector.value = page
 
   element.append(pageSelector)
 
   pageSelector.addEventListener("change", () => {
-    localState.page = pageSelector.value
-
-    joy.refresh()
+    setPage(pageSelector.value)
   })
 
-  switch (localState.page) {
+  switch (page) {
     case 'counter': {
       const counterInstance = joy.create(CounterComponent)
 

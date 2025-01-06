@@ -3,7 +3,7 @@ export function CounterComponent(props, { joy }) {
 
   const element = document.createElement('div')
 
-  const [state, setState] = joy.useState(1)
+  const [_, setState] = joy.useState(1)
 
   const interval = setInterval(() => {
 
