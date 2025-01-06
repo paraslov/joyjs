@@ -13,10 +13,6 @@ export function checkSameProps(prevProps, newProps) {
   }
 
   for (let key of prevKeys) {
-    if (typeof prevProps[key] === 'function' && typeof newProps[key] === 'function') {
-      continue; // Пропускаем функции
-    }
-
     if (prevProps[key] !== newProps[key]) {
       return false;
     }

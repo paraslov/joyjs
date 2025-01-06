@@ -7,19 +7,19 @@ class JoyJS {
     const renderJoy = createRenderJoy(() => componentInstance, this)
     const componentJoy = createComponentJoy(() => componentInstance, ComponentFunction, renderJoy)
 
-    Object.setPrototypeOf(renderJoy, componentJoy) // inherit refresh method
+    renderJoy.refresh = componentJoy.refresh // inherit refresh method
 
     componentInstance = getComponentInstance(ComponentFunction, props, componentJoy)
 
     renderJoy.setComponentInstance(componentInstance)
     componentJoy.setComponentInstance(componentInstance)
-    const componentState = componentJoy.getComponentState()
+    const componentStates = componentJoy.getComponentStates()
 
     if (parentInstance) {
       setParentChildrenComponents(parentInstance, componentInstance)
     }
 
-    renderComponent(componentInstance, ComponentFunction, renderJoy, componentState)
+    renderComponent(componentInstance, ComponentFunction, renderJoy, componentStates)
 
     return componentInstance
   }
@@ -62,8 +62,6 @@ function createRenderJoy(getComponentInstance, Joy) {
 function createComponentJoy(getComponentInstance, ComponentFunction, renderJoy) {
   let componentInstance = null
   let states = {value: []}
-  let setStateFunction = null
-  let currentIndex = 0
   const componentStates = []
 
   const componentJoy = {
@@ -71,7 +69,6 @@ function createComponentJoy(getComponentInstance, ComponentFunction, renderJoy) 
       if (!componentInstance?.element) {
         throw new Error('componentInstance.element is not defined.')
       }
-      this.resetStateIndex?.()
 
       componentInstance.element.innerHTML = ''
 
@@ -79,43 +76,29 @@ function createComponentJoy(getComponentInstance, ComponentFunction, renderJoy) 
         componentInstance.childrenComponents.forEach(cc => cc.cleanup?.())
       }
 
-      console.log('@> comp comp states!!: ', componentStates)
       renderComponent(componentInstance, ComponentFunction, renderJoy, componentStates)
     },
     useState(initialState) {
-      const index = currentIndex
-      currentIndex++
+      const state = { value: initialState }
+      states.value.push(state)
 
-      if (states.value[index] === undefined) {
-        states.value[index] = initialState
-      }
-
-      setStateFunction = (newState) => {
+      const setStateFunction = (newState) => {
         if (typeof newState === 'function') {
-          states.value[index] = newState(states.value[index])
-          componentStates[index][0] = states.value[index]
+          state.value = newState(state.value)
         } else {
-          console.log('@> states.value[index]: ', states.value[index])
-          console.log('@> newState: ', newState)
-          states.value[index] = newState
-          componentStates[index][0] = newState
-          console.log('@> states.value[index]: ', states.value[index])
+          state.value = newState
         }
-        this.refresh()
+        renderJoy.refresh()
       }
 
-      componentStates.push([states.value[index], setStateFunction])
-      console.log('@> compstates: ', componentStates)
-      return [states.value[index], setStateFunction]
+      componentStates.push([state, setStateFunction])
+      return [state.value, setStateFunction]
     },
     setComponentInstance(instance) {
       componentInstance = instance
     },
-    getComponentState() {
+    getComponentStates() {
       return componentStates
-    },
-    resetStateIndex() {
-      currentIndex = 0
     },
   }
 
@@ -138,7 +121,7 @@ function renderComponent(componentInstance, ComponentFunction, renderJoy, compon
     localState: componentInstance.localState,
     props: componentInstance.props,
     joy: renderJoy,
-    componentStates,
+    componentStates: componentStates.map(cs => [cs[0].value, cs[1]]),
   })
 }
 
