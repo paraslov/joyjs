@@ -61,14 +61,17 @@ function createRenderJoy(getComponentInstance, Joy) {
 // used in component
 function createComponentJoy(getComponentInstance, ComponentFunction, renderJoy) {
   let componentInstance = null
-  let state = {value: null}
+  let states = {value: []}
   let setStateFunction = null
+  let currentIndex = 0
+  const componentStates = []
 
   const componentJoy = {
     refresh() {
       if (!componentInstance?.element) {
         throw new Error('componentInstance.element is not defined.')
       }
+      this.resetStateIndex?.()
 
       componentInstance.element.innerHTML = ''
 
@@ -76,32 +79,44 @@ function createComponentJoy(getComponentInstance, ComponentFunction, renderJoy) 
         componentInstance.childrenComponents.forEach(cc => cc.cleanup?.())
       }
 
-      renderComponent(componentInstance, ComponentFunction, renderJoy, [state.value, setStateFunction])
+      console.log('@> comp comp states!!: ', componentStates)
+      renderComponent(componentInstance, ComponentFunction, renderJoy, componentStates)
     },
     useState(initialState) {
-      if (state.value === null) {
-        state = { value: initialState }
+      const index = currentIndex
+      currentIndex++
+
+      if (states.value[index] === undefined) {
+        states.value[index] = initialState
       }
 
-      if (setStateFunction === null) {
-        setStateFunction = (newState) => {
-          if (typeof newState === 'function') {
-            state.value = newState(state.value)
-          } else {
-            state.value = newState
-          }
-          this.refresh()
+      setStateFunction = (newState) => {
+        if (typeof newState === 'function') {
+          states.value[index] = newState(states.value[index])
+          componentStates[index][0] = states.value[index]
+        } else {
+          console.log('@> states.value[index]: ', states.value[index])
+          console.log('@> newState: ', newState)
+          states.value[index] = newState
+          componentStates[index][0] = newState
+          console.log('@> states.value[index]: ', states.value[index])
         }
+        this.refresh()
       }
 
-      return [state.value, setStateFunction]
+      componentStates.push([states.value[index], setStateFunction])
+      console.log('@> compstates: ', componentStates)
+      return [states.value[index], setStateFunction]
     },
     setComponentInstance(instance) {
       componentInstance = instance
     },
     getComponentState() {
-      return [state.value, setStateFunction]
-    }
+      return componentStates
+    },
+    resetStateIndex() {
+      currentIndex = 0
+    },
   }
 
   return componentJoy
@@ -115,7 +130,7 @@ function getComponentInstance(ComponentFunction, props, componentJoy) {
   return componentInstance
 }
 
-function renderComponent(componentInstance, ComponentFunction, renderJoy, componentState) {
+function renderComponent(componentInstance, ComponentFunction, renderJoy, componentStates) {
   componentInstance.childrenIndex = -1
 
   ComponentFunction.render({
@@ -123,7 +138,7 @@ function renderComponent(componentInstance, ComponentFunction, renderJoy, compon
     localState: componentInstance.localState,
     props: componentInstance.props,
     joy: renderJoy,
-    componentState,
+    componentStates,
   })
 }
 

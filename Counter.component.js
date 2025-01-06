@@ -20,8 +20,8 @@ export function CounterComponent(props, { joy }) {
   }
 }
 
-CounterComponent.render = ({ element, componentState }) => {
-  const [state] = componentState
+CounterComponent.render = ({ element, componentStates }) => {
+  const [state] = componentStates[0]
   console.log('CounterComponent render')
 
   element.append(state)
