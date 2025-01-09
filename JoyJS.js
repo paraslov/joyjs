@@ -1,4 +1,4 @@
-import {checkSameProps} from './checkSameProps.js'
+import {checkSameProps} from './utils/checkSameProps.js'
 
 class JoyJS {
   create(ComponentFunction, props = {}, {parentInstance} = {parentInstance: null}) {
