@@ -1,6 +1,6 @@
 const targetMap = new WeakMap()
 
-function track(target, key, effect) {
+export function track(target, key, effect) {
   let depsMap = targetMap.get(target)
   if (!depsMap) targetMap.set(target, (depsMap = new Map()))
 
@@ -10,7 +10,7 @@ function track(target, key, effect) {
   dep.add(effect)
 }
 
-function trigger(target, key) {
+export function trigger(target, key) {
   const depsMap = targetMap.get(target)
   if (!depsMap) return
 
