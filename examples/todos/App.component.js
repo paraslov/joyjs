@@ -4,7 +4,6 @@ import { TodolistComponent } from "./Todolist.component.js";
 export function AppComponent(_, { joy }) {
   const element = document.createElement('div')
   joy.useState('todolist')
-  joy.useState('all')
 
   return {
     element,
@@ -13,9 +12,8 @@ export function AppComponent(_, { joy }) {
 
 AppComponent.render = ({ element, componentStates, joy }) => {
   console.log('App render')
-  console.log('componentState: ', componentStates)
+
   const [page, setPage] = componentStates[0]
-  const [filter, setFilter] = componentStates[1]
 
   const pageSelector = document.createElement('select')
 

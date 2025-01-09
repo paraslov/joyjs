@@ -1,5 +1,5 @@
 import { AppComponent } from "./App.component.js";
-import { Joy } from "./JoyJS.js";
+import { Joy } from "../../JoyJS.js";
 
 const rootElement = document.getElementById('root')
 
