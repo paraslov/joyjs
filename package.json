@@ -1,6 +1,7 @@
 {
   "name": "@joymestudios/joyjs",
   "version": "0.0.1",
+  "type": "module",
   "description": "My UI framework for joy development",
   "main": "index.js",
   "scripts": {
