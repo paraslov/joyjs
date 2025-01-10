@@ -1,5 +1,6 @@
 import {checkSameProps} from './checkSameProps.js'
 import {validateComponentFunction, validateComponentInstance} from "./validations.js";
+import {useStatFactory} from "./core/useState/useState.js";
 
 class JoyJS {
   create(ComponentFunction, props = {}, {parentInstance} = {parentInstance: null}) {
@@ -81,22 +82,7 @@ function createComponentJoy(getComponentInstance, ComponentFunction, renderJoy) 
 
       renderComponent(componentInstance, ComponentFunction, renderJoy, componentStates)
     },
-    useState(initialState) {
-      const state = { value: initialState }
-      states.value.push(state)
-
-      const setStateFunction = (newState) => {
-        if (typeof newState === 'function') {
-          state.value = newState(state.value)
-        } else {
-          state.value = newState
-        }
-        renderJoy.refresh()
-      }
-
-      componentStates.push([state, setStateFunction])
-      return [state.value, setStateFunction]
-    },
+    useState: useStatFactory(states, componentStates, renderJoy),
     setComponentInstance(instance) {
       componentInstance = instance
     },
