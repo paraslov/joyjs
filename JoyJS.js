@@ -1,7 +1,9 @@
 import {checkSameProps} from './checkSameProps.js'
+import {validateComponentFunction, validateComponentInstance} from "./validations.js";
 
 class JoyJS {
   create(ComponentFunction, props = {}, {parentInstance} = {parentInstance: null}) {
+    validateComponentFunction(ComponentFunction)
     let componentInstance = {}
 
     const renderJoy = createRenderJoy(() => componentInstance, this)
@@ -10,6 +12,7 @@ class JoyJS {
     renderJoy.refresh = componentJoy.refresh // inherit refresh method
 
     componentInstance = getComponentInstance(ComponentFunction, props, componentJoy)
+    validateComponentInstance(componentInstance)
 
     renderJoy.setComponentInstance(componentInstance)
     componentJoy.setComponentInstance(componentInstance)
