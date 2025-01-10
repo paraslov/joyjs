@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/paraslov/joyjs/issues"
   },
-  "homepage": "https://github.com/paraslov/joyjs#readme"
+  "homepage": "https://github.com/paraslov/joyjs#readme",
+  "dependencies": {
+    "typescript": "^5.7.3"
+  }
 }
