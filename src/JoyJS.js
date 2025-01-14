@@ -1,4 +1,4 @@
-import { validateComponentFunction, validateComponentInstance } from './validations.js'
+import { validateComponentFunction, validateComponentInstance } from '../validations.js'
 import { useStateFactory } from './core/useState/useStateFactory.js'
 import { renderComponent } from './core/joyJs/render-component.js'
 import { refreshComponent } from './core/joyJs/refresh-component.js'
