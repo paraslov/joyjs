@@ -1,5 +1,5 @@
 import {Joy} from "../../JoyJS.js";
-import {checkSameProps} from "../../checkSameProps.js";
+import { checkSameProps } from '../../utils/checkSameProps.js'
 
 export function createChildComponent(componentInstance, ChildrenComponentFunction, props) {
     if (!componentInstance?.element) {
