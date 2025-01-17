@@ -1,5 +1,5 @@
 import { Joy } from '../../JoyJS.js';
-import { checkSameProps } from '../../utils/checkSameProps.js';
+import { checkSameProps } from '../../utils/checkSameProps.ts';
 
 export function createChildComponent(
   componentInstance,

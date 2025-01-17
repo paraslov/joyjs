@@ -35,6 +35,12 @@ TodolistComponent.render = ({ element, componentStates, joy }) => {
     );
   };
 
+  const deleteTask = (taskId) => {
+    setTasks(
+      prev => prev.filter((t) => t.id !== taskId)
+    );
+  }
+
   element.append('TODOLIST');
   const addItemInstance = joy.create(AddItemComponent, { addItem: addTask });
   element.append(addItemInstance.element);
@@ -53,7 +59,8 @@ TodolistComponent.render = ({ element, componentStates, joy }) => {
     const task = tasksForRender[i];
     const taskInstance = joy.create(TaskComponent, {
       task,
-      setIsDone: setIsDone
+      setIsDone,
+      deleteTask
     });
 
     element.append(taskInstance.element);

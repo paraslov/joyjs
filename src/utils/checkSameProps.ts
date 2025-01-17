@@ -1,9 +1,11 @@
-export function checkSameProps(prevProps, newProps) {
+type PropsType = Record<string, unknown> | null
+
+export function checkSameProps(prevProps: PropsType, newProps: PropsType) {
   if (prevProps === newProps) return true;
 
   if (
-    (prevProps == null && newProps != null) ||
-    (prevProps != null && newProps == null)
+    (prevProps === null && newProps !== null) ||
+    (prevProps !== null && newProps === null)
   ) {
     return false;
   }

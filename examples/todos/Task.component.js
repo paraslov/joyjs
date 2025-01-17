@@ -11,7 +11,7 @@ export function TaskComponent(props) {
   };
 }
 
-TaskComponent.render = ({ element, props, localState }) => {
+TaskComponent.render = ({element, props, localState}) => {
   console.log('TaskComponent render');
 
   element.append(props.task.title);
@@ -24,5 +24,13 @@ TaskComponent.render = ({ element, props, localState }) => {
     props.setIsDone(props.task.id, isDoneElement.checked);
   });
 
+  const deleteTaskButton = document.createElement('button');
+  deleteTaskButton.innerText = 'x';
+
+  deleteTaskButton.addEventListener('click', () => {
+    props.deleteTask(props.task.id);
+  });
+
   element.append(isDoneElement);
+  element.appendChild(deleteTaskButton);
 };
