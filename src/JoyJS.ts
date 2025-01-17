@@ -20,6 +20,9 @@ export type ComponentInstance = {
   element: HTMLElement;
   childrenComponents: ComponentInstance[];
   cleanup?: () => void;
+  props?: Props;
+  childrenIndex: number;
+  type?: Function;
 };
 
 export type ParentInstance = ComponentInstance | null;
