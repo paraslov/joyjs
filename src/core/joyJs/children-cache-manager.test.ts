@@ -28,7 +28,7 @@ describe('CacheManager', () => {
     });
 
     test('добавление элемента с тем же ключом выводит предупреждение', () => {
-        console.warn = vi.fn(); // Подменяем console.warn на mock функцию
+        console.warn = vi.fn();
 
         cacheManager.addItem({ name: 'item1' }, 'type1', 'customKey');
         cacheManager.addItem({ name: 'item2' }, 'type1', 'customKey');

@@ -1,7 +1,5 @@
-export class CacheGroup<T> {
+class CacheGroup<T> {
     private cache: Map<string | number, T> = new Map();
-
-    constructor() {}
 
     addItem(item: T, key?: string | number): void {
         const itemKey = key !== undefined ? key : this.cache.size;

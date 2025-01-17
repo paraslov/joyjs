@@ -25,13 +25,11 @@ TodolistComponent.render = ({ element, componentStates, joy }) => {
 
   const setIsDone = (taskId, isDone) => {
     setTasks(
-      tasks.map((task) => (task.id === taskId ? { ...task, isDone } : task)),
+      prev => prev.map((task) => (task.id === taskId ? { ...task, isDone } : task)),
     );
   };
   element.append('TODOLIST');
 
-  const filterInstance = joy.create(FilterComponent, { filter, setFilter });
-  element.append(filterInstance.element);
   let tasksForRender = tasks;
 
   switch (filter) {
@@ -51,4 +49,7 @@ TodolistComponent.render = ({ element, componentStates, joy }) => {
 
     element.append(taskInstance.element);
   }
+
+  const filterInstance = joy.create(FilterComponent, { filter, setFilter });
+  element.append(filterInstance.element);
 };
