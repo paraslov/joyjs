@@ -1,5 +1,6 @@
-import { renderComponent } from './render-component.js';
-import { ComponentInstance } from 'src/JoyJS.js';
+import { renderComponent } from './render-component.ts';
+
+import { ComponentInstance } from '../types/core-types.ts';
 
 export function refreshComponent(componentInstance: ComponentInstance, componentStates: any[]) {
   if (!componentInstance?.element) {

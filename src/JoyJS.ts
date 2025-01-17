@@ -1,35 +1,11 @@
-import {
-  validateComponentFunction,
-  validateComponentInstance,
-} from '../validations.js';
+import { validateComponentFunction, validateComponentInstance, } from '../validations.js';
 import { useStateFactory } from './core/useState/useStateFactory.js';
-import { renderComponent } from './core/joyJs/render-component.js';
+import { renderComponent } from './core/joyJs/render-component.ts';
 import { refreshComponent } from './core/joyJs/refresh-component.ts';
 import { createChildComponent } from './core/joyJs/create-children-component.ts';
-import { setParentChildrenComponents } from './core/joyJs/set-parent-children-components.js';
+import { setParentChildrenComponents } from './core/joyJs/set-parent-children-components.ts';
 import { getComponentInstance } from './core/joyJs/get-component-instance.ts';
-
-export type ComponentFunction = (props: Record<string, any>, options: { joy: ComponentJoy }) => any;
-export type Props = Record<string, any>;
-
-export type ComponentInstance = {
-  renderJoy: {
-    create: (ChildrenComponentFunction: ComponentFunction, props: Props) => ComponentInstance;
-    refresh: () => void;
-  };
-  element: HTMLElement;
-  childrenComponents: ComponentInstance[];
-  cleanup?: () => void;
-  props?: Props;
-  childrenIndex: number;
-  type?: Function;
-};
-
-export type ParentInstance = ComponentInstance | null;
-
-export type ComponentJoy = {
-  useState: <T>(initialState: T) => [T, (newState: T) => void];
-};
+import { ComponentFunction, ComponentInstance, ComponentJoy, ParentInstance, Props } from './core/types/core-types.ts';
 
 class JoyJS {
   create(
