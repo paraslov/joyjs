@@ -1,7 +1,10 @@
 export function checkSameProps(prevProps, newProps) {
   if (prevProps === newProps) return true;
 
-  if ((prevProps == null && newProps != null) || (prevProps != null && newProps == null)) {
+  if (
+    (prevProps == null && newProps != null) ||
+    (prevProps != null && newProps == null)
+  ) {
     return false;
   }
 

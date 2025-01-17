@@ -1,9 +1,8 @@
-import { AppComponent } from "./App.component.js";
-import { Joy } from "src/JoyJS.js";
+import { AppComponent } from './App.component.js';
+import { Joy } from 'src/JoyJS.js';
 
-const rootElement = document.getElementById('root')
+const rootElement = document.getElementById('root');
 
-const appInstance = Joy.create(AppComponent)
+const appInstance = Joy.create(AppComponent);
 
-rootElement.append(appInstance.element)
-
+rootElement.append(appInstance.element);

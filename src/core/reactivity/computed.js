@@ -1,22 +1,22 @@
-import { watcher } from "./watcher.js";
+import { watcher } from './watcher.js';
 
 const computed = (callback) => {
-    let value
-    let isDirty = true
-    const effect = () => {
-        callback()
-        isDirty = true
-    };
+  let value;
+  let isDirty = true;
+  const effect = () => {
+    callback();
+    isDirty = true;
+  };
 
-    watcher(effect)
+  watcher(effect);
 
-    return {
-        get value() {
-            if (isDirty) {
-                value = callback()
-                isDirty = false
-            }
-            return value
-        }
-    }
-}
+  return {
+    get value() {
+      if (isDirty) {
+        value = callback();
+        isDirty = false;
+      }
+      return value;
+    },
+  };
+};

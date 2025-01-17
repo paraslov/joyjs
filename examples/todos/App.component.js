@@ -1,53 +1,53 @@
-import { CounterComponent } from "./Counter.component.js";
-import { TodolistComponent } from "./Todolist.component.js";
+import { CounterComponent } from './Counter.component.js';
+import { TodolistComponent } from './Todolist.component.js';
 
 export function AppComponent(_, { joy }) {
-  const element = document.createElement('div')
-  joy.useState('todolist')
+  const element = document.createElement('div');
+  joy.useState('todolist');
 
   return {
     element,
-  }
+  };
 }
 
 AppComponent.render = ({ element, componentStates, joy }) => {
-  console.log('App render')
+  console.log('App render');
 
-  const [page, setPage] = componentStates[0]
+  const [page, setPage] = componentStates[0];
 
-  const pageSelector = document.createElement('select')
+  const pageSelector = document.createElement('select');
 
-  const counterPageOption = document.createElement('option')
-  counterPageOption.append('Counter Page')
-  counterPageOption.value = 'counter'
+  const counterPageOption = document.createElement('option');
+  counterPageOption.append('Counter Page');
+  counterPageOption.value = 'counter';
 
-  const todolistOption = document.createElement('option')
-  todolistOption.append('Todo List App')
-  todolistOption.value = 'todolist'
+  const todolistOption = document.createElement('option');
+  todolistOption.append('Todo List App');
+  todolistOption.value = 'todolist';
 
-  pageSelector.append(counterPageOption, todolistOption)
-  pageSelector.value = page
+  pageSelector.append(counterPageOption, todolistOption);
+  pageSelector.value = page;
 
-  element.append(pageSelector)
+  element.append(pageSelector);
 
-  pageSelector.addEventListener("change", () => {
-    setPage(pageSelector.value)
-  })
+  pageSelector.addEventListener('change', () => {
+    setPage(pageSelector.value);
+  });
 
   switch (page) {
     case 'counter': {
-      const counterInstance = joy.create(CounterComponent)
+      const counterInstance = joy.create(CounterComponent);
 
-      element.append(counterInstance.element)
+      element.append(counterInstance.element);
 
-      break
+      break;
     }
     case 'todolist': {
-      const todolistInstance = joy.create(TodolistComponent)
+      const todolistInstance = joy.create(TodolistComponent);
 
-      element.append(todolistInstance.element)
+      element.append(todolistInstance.element);
 
-      break
+      break;
     }
   }
-}
+};

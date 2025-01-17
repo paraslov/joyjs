@@ -1,6 +1,6 @@
-export let activeEffect = null
+export let activeEffect = null;
 export const watcher = (callback) => {
-    activeEffect = callback
-    activeEffect()
-    activeEffect = null
-}
+  activeEffect = callback;
+  activeEffect();
+  activeEffect = null;
+};
