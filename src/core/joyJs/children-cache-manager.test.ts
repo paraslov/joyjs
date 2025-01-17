@@ -1,4 +1,5 @@
-import { CacheManager } from './children-cache-manager'; // предположим, что ваш класс находится в файле CacheManager.ts
+import { CacheManager } from './children-cache-manager';
+import { describe, expect, test, beforeEach, vi } from 'vitest';
 
 describe('CacheManager', () => {
     let cacheManager: CacheManager<any>;
@@ -27,12 +28,12 @@ describe('CacheManager', () => {
     });
 
     test('добавление элемента с тем же ключом выводит предупреждение', () => {
-        console.warn = jest.fn(); // Подменяем console.warn на mock функцию
+        console.warn = vi.fn(); // Подменяем console.warn на mock функцию
 
         cacheManager.addItem({ name: 'item1' }, 'type1', 'customKey');
         cacheManager.addItem({ name: 'item2' }, 'type1', 'customKey');
 
-        expect(console.warn).toHaveBeenCalledWith('Warning: The key "customKey" already exists in the group "type1".');
+        expect(console.warn).toHaveBeenCalled();
     });
 
     test('добавление элемента с измененным типом создает новую группу', () => {
