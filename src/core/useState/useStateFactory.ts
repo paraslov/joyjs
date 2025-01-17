@@ -1,7 +1,9 @@
+import { ComponentStates, RefreshFunction } from '../types/core-types.ts';
+
 export function useStateFactory(
-  initialState,
-  componentStates,
-  refreshComponent,
+  initialState: unknown,
+  componentStates: ComponentStates,
+  refreshComponent: RefreshFunction,
 ) {
   const state = { value: initialState };
 

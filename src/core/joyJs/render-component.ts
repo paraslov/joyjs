@@ -1,6 +1,6 @@
-import { ComponentInstance } from '../types/core-types.ts';
+import { ComponentInstance, ComponentStates } from '../types/core-types.ts';
 
-export function renderComponent(componentInstance: ComponentInstance, componentStates: any[]) {
+export function renderComponent(componentInstance: ComponentInstance, componentStates: ComponentStates) {
   componentInstance.childrenIndex = -1;
 
   componentInstance.type.render({

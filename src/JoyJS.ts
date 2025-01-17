@@ -1,11 +1,18 @@
 import { validateComponentFunction, validateComponentInstance, } from '../validations.js';
-import { useStateFactory } from './core/useState/useStateFactory.js';
+import { useStateFactory } from './core/useState/useStateFactory.ts';
 import { renderComponent } from './core/joyJs/render-component.ts';
 import { refreshComponent } from './core/joyJs/refresh-component.ts';
 import { createChildComponent } from './core/joyJs/create-children-component.ts';
 import { setParentChildrenComponents } from './core/joyJs/set-parent-children-components.ts';
 import { getComponentInstance } from './core/joyJs/get-component-instance.ts';
-import { ComponentFunction, ComponentInstance, ComponentJoy, ParentInstance, Props } from './core/types/core-types.ts';
+import {
+  ComponentFunction,
+  ComponentInstance,
+  ComponentJoy,
+  ComponentStates,
+  ParentInstance,
+  Props
+} from './core/types/core-types.ts';
 
 class JoyJS {
   create(
@@ -15,7 +22,7 @@ class JoyJS {
   ): ComponentInstance {
     validateComponentFunction(ComponentFunction);
 
-    const componentStates: any[] = [];
+    const componentStates: ComponentStates = [];
     const componentJoy: ComponentJoy = {
       useState: <T>(initialState: T) => {
         const refreshComponentFn = () => componentInstance.renderJoy.refresh();
