@@ -33,9 +33,9 @@ export function createChildComponent(
 
 function getUpdatedComponent(
   cachedComponentInstance: ComponentInstance,
-  props: Props
+  props?: Props
 ): ComponentInstance {
-  if (checkSameProps(props, cachedComponentInstance.props ?? null)) {
+  if (checkSameProps(props ?? null, cachedComponentInstance.props ?? null)) {
     return cachedComponentInstance;
   }
 
