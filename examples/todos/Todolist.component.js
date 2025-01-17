@@ -1,5 +1,6 @@
 import { TaskComponent } from './Task.component.js';
 import { FilterComponent } from './Filter.component.js';
+import { AddItemComponent } from './AddItem.component.js';
 
 export function TodolistComponent(props, { joy }) {
   console.log('TodolistComponent mount');
@@ -9,12 +10,12 @@ export function TodolistComponent(props, { joy }) {
   joy.useState([
     { id: 1, title: 'Cat', isDone: false },
     { id: 2, title: 'Kitty', isDone: true },
-    { id: 3, title: 'Pussy cat', isDone: true },
+    { id: 3, title: 'Pussy cat', isDone: true }
   ]);
   joy.useState('all');
 
   return {
-    element,
+    element
   };
 }
 
@@ -25,10 +26,18 @@ TodolistComponent.render = ({ element, componentStates, joy }) => {
 
   const setIsDone = (taskId, isDone) => {
     setTasks(
-      prev => prev.map((task) => (task.id === taskId ? { ...task, isDone } : task)),
+      prev => prev.map((task) => (task.id === taskId ? { ...task, isDone } : task))
     );
   };
+  const addTask = (title) => {
+    setTasks(
+      prev => [...prev, { id: prev.length + 1, title, isDone: false }]
+    );
+  };
+
   element.append('TODOLIST');
+  const addItemInstance = joy.create(AddItemComponent, { addItem: addTask });
+  element.append(addItemInstance.element);
 
   let tasksForRender = tasks;
 
@@ -44,7 +53,7 @@ TodolistComponent.render = ({ element, componentStates, joy }) => {
     const task = tasksForRender[i];
     const taskInstance = joy.create(TaskComponent, {
       task,
-      setIsDone: setIsDone,
+      setIsDone: setIsDone
     });
 
     element.append(taskInstance.element);
