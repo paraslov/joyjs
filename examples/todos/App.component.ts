@@ -1,14 +1,15 @@
 import { CounterComponent } from './Counter.component.js';
 import { TodolistComponent } from './Todolist.component.js';
+import { ComponentFunction, ComponentJoy } from '../../src/core/types/core-types';
 
-export function AppComponent(_, { joy }) {
+export const AppComponent: ComponentFunction = function (props, { joy }) {
   const element = document.createElement('div');
   joy.useState('todolist');
 
   return {
     element,
   };
-}
+};
 
 AppComponent.render = ({ element, componentStates, joy }) => {
   console.log('App render');

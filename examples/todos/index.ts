@@ -1,4 +1,4 @@
-import { AppComponent } from './App.component.js';
+import { AppComponent } from './App.component';
 import { Joy } from 'src/JoyJS.ts';
 
 const rootElement = document.getElementById('root');

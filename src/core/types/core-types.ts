@@ -1,5 +1,5 @@
 export type ComponentFunction = ((props: Record<string, any>, options: { joy: ComponentJoy }) => any) & {
-  render: (
+  render?: (
     options: RenderOptions
   ) => void;
 };
@@ -24,7 +24,7 @@ export type ComponentJoy = {
 };
 
 export type RenderJoy = {
-  create: (ChildrenComponentFunction: ComponentFunction, props: Props) => ComponentInstance,
+  create: (ChildrenComponentFunction: ComponentFunction, props?: Props) => ComponentInstance,
   refresh: RefreshFunction
 }
 

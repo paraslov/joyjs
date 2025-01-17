@@ -5,7 +5,7 @@ import { ComponentFunction, ComponentInstance, Props } from '../types/core-types
 export function createChildComponent(
   componentInstance: ComponentInstance,
   ChildrenComponentFunction: ComponentFunction,
-  props: Props
+  props?: Props
 ): ComponentInstance {
   if (!componentInstance?.element) {
     throw new Error('componentInstance.element is not defined.');

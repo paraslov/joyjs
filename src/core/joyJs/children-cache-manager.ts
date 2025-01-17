@@ -9,7 +9,7 @@ class CacheGroup<T> {
         this.cache.set(itemKey, item);
     }
 
-    getItem(key?: string | number): T | undefined {
+    getItem(key?: string | number): T | intrinsic {
         if (key !== undefined) {
             return this.cache.get(key);
         }
@@ -37,7 +37,7 @@ export class CacheManager<T> {
         currentGroup.addItem(item, key);
     }
 
-    getItem(type: any, key?: string | number): T | undefined {
+    getItem(type: any, key?: string | number): intrinsic | T | undefined {
         const currentGroup = this.groups.get(type);
         return currentGroup ? currentGroup.getItem(key) : undefined;
     }
