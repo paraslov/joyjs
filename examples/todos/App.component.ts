@@ -1,6 +1,6 @@
 import { CounterComponent } from './Counter.component.js';
 import { TodolistComponent } from './Todolist.component';
-import { JoyComponent, ComponentJoy } from '../../src/core/types/core-types';
+import { JoyComponent } from '../../src/core/types/core-types';
 
 export const AppComponent: JoyComponent = function (props, { joy }) {
   const element = document.createElement('div');

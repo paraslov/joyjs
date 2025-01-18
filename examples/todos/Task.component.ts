@@ -25,7 +25,7 @@ export const TaskComponent: JoyComponent<TaskComponentProps> = function(props) {
   };
 }
 
-TaskComponent.render = ({element, props, localState}) => {
+TaskComponent.render = ({element, props}) => {
   console.log('TaskComponent render');
 
   element.append(props.task.title);

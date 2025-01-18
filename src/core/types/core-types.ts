@@ -14,7 +14,6 @@ export type ComponentInstance = {
   props?: JoyProps;
   childrenIndex: number;
   type: JoyComponent;
-  localState?: JoyProps;
 };
 
 export type ParentInstance = ComponentInstance | null;
@@ -34,7 +33,6 @@ export type ComponentStates = any[]
 type RenderOptions = {
   joy: RenderJoy,
   element: HTMLElement,
-  localState?: JoyProps,
   props?: JoyProps,
   componentStates?: ComponentStates[],
 };
