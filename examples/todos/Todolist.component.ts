@@ -1,8 +1,9 @@
-import { TaskComponent } from './Task.component.js';
+import { TaskComponent } from './Task.component';
 import { FilterComponent } from './Filter.component.js';
 import { AddItemComponent } from './AddItem.component.js';
+import { JoyComponent } from '../../src/core/types/core-types';
 
-export function TodolistComponent(props, { joy }) {
+export const TodolistComponent: JoyComponent = function(props, { joy }) {
   console.log('TodolistComponent mount');
 
   const element = document.createElement('ul');

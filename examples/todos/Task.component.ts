@@ -1,4 +1,18 @@
-export function TaskComponent(props) {
+import { JoyComponent } from '../../src/core/types/core-types';
+
+type TaskComponentProps = {
+  task: TaskType;
+  setIsDone: () => void;
+  deleteTask: () => void;
+}
+
+type TaskType = {
+  id: number;
+  title: string;
+  isDone: boolean;
+}
+
+export const TaskComponent: JoyComponent<TaskComponentProps> = function(props) {
   console.log('TaskComponent mount');
   const element = document.createElement('li');
 

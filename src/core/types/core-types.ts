@@ -1,20 +1,20 @@
-export type ComponentFunction = ((props: Record<string, any>, options: { joy: ComponentJoy }) => any) & {
+export type JoyComponent<P = JoyProps> = ((props: P, options: { joy: ComponentJoy }) => any) & {
   render?: (
     options: RenderOptions
   ) => void;
 };
 
-export type Props = Record<string, any>;
+export type JoyProps = Record<string, any>;
 
 export type ComponentInstance = {
   renderJoy: RenderJoy;
   element: HTMLElement;
   childrenComponents: ComponentInstance[];
   cleanup?: () => void;
-  props?: Props;
+  props?: JoyProps;
   childrenIndex: number;
-  type: ComponentFunction;
-  localState?: Props;
+  type: JoyComponent;
+  localState?: JoyProps;
 };
 
 export type ParentInstance = ComponentInstance | null;
@@ -24,7 +24,7 @@ export type ComponentJoy = {
 };
 
 export type RenderJoy = {
-  create: (ChildrenComponentFunction: ComponentFunction, props?: Props) => ComponentInstance,
+  create: (ChildrenComponentFunction: JoyComponent, props?: JoyProps) => ComponentInstance,
   refresh: RefreshFunction
 }
 
@@ -34,7 +34,7 @@ export type ComponentStates = any[]
 type RenderOptions = {
   joy: RenderJoy,
   element: HTMLElement,
-  localState?: Props,
-  props?: Props,
+  localState?: JoyProps,
+  props?: JoyProps,
   componentStates?: ComponentStates[],
 };

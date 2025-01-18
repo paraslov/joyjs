@@ -1,11 +1,11 @@
 import { Joy } from '../../JoyJS.js';
 import { checkSameProps } from '../../utils/checkSameProps.ts';
-import { ComponentFunction, ComponentInstance, Props } from '../types/core-types.ts';
+import { JoyComponent, ComponentInstance, JoyProps } from '../types/core-types.ts';
 
 export function createChildComponent(
   componentInstance: ComponentInstance,
-  ChildrenComponentFunction: ComponentFunction,
-  props?: Props
+  ChildrenComponentFunction: JoyComponent,
+  props?: JoyProps
 ): ComponentInstance {
   if (!componentInstance?.element) {
     throw new Error('componentInstance.element is not defined.');
@@ -33,7 +33,7 @@ export function createChildComponent(
 
 function getUpdatedComponent(
   cachedComponentInstance: ComponentInstance,
-  props?: Props
+  props?: JoyProps
 ): ComponentInstance {
   if (checkSameProps(props ?? null, cachedComponentInstance.props ?? null)) {
     return cachedComponentInstance;

@@ -6,18 +6,18 @@ import { createChildComponent } from './core/joyJs/create-children-component.ts'
 import { setParentChildrenComponents } from './core/joyJs/set-parent-children-components.ts';
 import { getComponentInstance } from './core/joyJs/get-component-instance.ts';
 import {
-  ComponentFunction,
+  JoyComponent,
   ComponentInstance,
   ComponentJoy,
   ComponentStates,
   ParentInstance,
-  Props
+  JoyProps
 } from './core/types/core-types.ts';
 
 class JoyJS {
   create(
-    ComponentFunction: ComponentFunction,
-    props: Props = {},
+    ComponentFunction: JoyComponent,
+    props: JoyProps = {},
     { parentInstance }: { parentInstance?: ParentInstance } = { parentInstance: null }
   ): ComponentInstance {
     validateComponentFunction(ComponentFunction);
