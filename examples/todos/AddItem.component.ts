@@ -1,4 +1,6 @@
-export function AddItemComponent(props, { joy }) {
+import { JoyComponent } from '../../src/core/types/core-types';
+
+export const AddItemComponent: JoyComponent = function(props) {
   console.log('AddItemComponent mount');
 
   const element = document.createElement('div');

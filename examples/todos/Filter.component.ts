@@ -1,4 +1,6 @@
-export function FilterComponent(props, { joy }) {
+import { JoyComponent } from '../../src/core/types/core-types';
+
+export const FilterComponent: JoyComponent = function(props) {
   console.log('FilterComponent mount');
 
   const element = document.createElement('div');

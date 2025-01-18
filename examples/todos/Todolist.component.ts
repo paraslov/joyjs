@@ -1,6 +1,6 @@
 import { TaskComponent } from './Task.component';
-import { FilterComponent } from './Filter.component.js';
-import { AddItemComponent } from './AddItem.component.js';
+import { FilterComponent } from './Filter.component';
+import { AddItemComponent } from './AddItem.component';
 import { JoyComponent } from '../../src/core/types/core-types';
 
 export const TodolistComponent: JoyComponent = function(props, { joy }) {

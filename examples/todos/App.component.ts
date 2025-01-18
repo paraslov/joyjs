@@ -1,4 +1,4 @@
-import { CounterComponent } from './Counter.component.js';
+import { CounterComponent } from './Counter.component';
 import { TodolistComponent } from './Todolist.component';
 import { JoyComponent } from '../../src/core/types/core-types';
 
