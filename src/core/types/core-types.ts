@@ -18,8 +18,9 @@ export type ComponentInstance = {
 
 export type ParentInstance = ComponentInstance | null;
 
+type SetStateAction<T> = T | ((prevState: T) => T);
 export type ComponentJoy = {
-  useState: <T>(initialState: T) => [T, (newState: T) => void];
+  useState: <T>(initialState: T) => [T, (newState: SetStateAction<T>) => void];
 };
 
 export type RenderJoy = {
