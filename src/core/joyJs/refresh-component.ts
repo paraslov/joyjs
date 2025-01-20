@@ -10,7 +10,9 @@ export function refreshComponent(componentInstance: ComponentInstance, component
   componentInstance.element.innerHTML = '';
 
   if (componentInstance.childrenComponents) {
-    componentInstance.childrenComponents.forEach((cc) => cc.cleanup?.());
+    for (const child of componentInstance.childrenComponents) {
+      child.cleanup?.()
+    }
   }
 
   renderComponent(componentInstance, componentStates);

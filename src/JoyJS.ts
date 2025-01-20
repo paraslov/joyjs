@@ -5,12 +5,13 @@ import { createChildComponent } from './core/joyJs/create-children-component.ts'
 import { setParentChildrenComponents } from './core/joyJs/set-parent-children-components.ts';
 import { getComponentInstance } from './core/joyJs/get-component-instance.ts';
 import {
-  JoyComponent,
   ComponentInstance,
   ComponentJoy,
   ComponentStates,
-  ParentInstance,
-  JoyProps
+  JoyComponent,
+  JoyCreateOptions,
+  JoyProps,
+  RenderJoyCreateOptions
 } from './core/types/core-types.ts';
 import { validateComponentFunction, validateComponentInstance } from './core/validations/validations.ts';
 
@@ -18,7 +19,7 @@ class JoyJS {
   create(
     ComponentFunction: JoyComponent,
     props: JoyProps = {},
-    { parentInstance }: { parentInstance?: ParentInstance } = { parentInstance: null }
+    { parentInstance, key }: JoyCreateOptions = { parentInstance: null }
   ): ComponentInstance {
     validateComponentFunction(ComponentFunction);
 
@@ -27,21 +28,21 @@ class JoyJS {
       useState: <T>(initialState: T) => {
         const refreshComponentFn = () => componentInstance.renderJoy.refresh();
         return useStateFactory<T>(initialState, componentStates, refreshComponentFn);
-      },
+      }
     };
 
     const componentInstance = getComponentInstance(ComponentFunction, props, componentJoy);
 
     componentInstance.renderJoy = {
-      create: (ChildrenComponentFunction, props) =>
-        createChildComponent(componentInstance, ChildrenComponentFunction, props),
-      refresh: () => refreshComponent(componentInstance, componentStates),
+      create: (ChildrenComponentFunction, props, options?: RenderJoyCreateOptions) =>
+        createChildComponent(componentInstance, ChildrenComponentFunction, props, options),
+      refresh: () => refreshComponent(componentInstance, componentStates)
     };
 
     validateComponentInstance(componentInstance);
 
     if (parentInstance) {
-      setParentChildrenComponents(parentInstance, componentInstance);
+      setParentChildrenComponents(parentInstance, componentInstance, key);
     }
 
     renderComponent(componentInstance, componentStates);

@@ -1,19 +1,20 @@
 import { Joy } from '../../JoyJS.js';
 import { checkSameProps } from '../../utils/checkSameProps.ts';
 import { JoyComponent, ComponentInstance, JoyProps } from '../types/core-types.ts';
+import { CacheKeyType } from './children-cache-manager.ts';
 
 export function createChildComponent(
   componentInstance: ComponentInstance,
   ChildrenComponentFunction: JoyComponent,
-  props?: JoyProps
+  props?: JoyProps,
+  options?: { key?: CacheKeyType }
 ): ComponentInstance {
   if (!componentInstance?.element) {
     throw new Error('componentInstance.element is not defined.');
   }
 
-  componentInstance.childrenIndex++;
-  const cachedComponentInstance =
-    componentInstance.childrenComponents?.[componentInstance.childrenIndex];
+  const key = options?.key;
+  const cachedComponentInstance = componentInstance.childrenComponents?.getItem(ChildrenComponentFunction, key);
 
   if (cachedComponentInstance) {
     const isComponentSameTypeAsItWas =
@@ -23,11 +24,12 @@ export function createChildComponent(
       return getUpdatedComponent(cachedComponentInstance, props);
     }
 
-    delete componentInstance.childrenComponents?.[componentInstance.childrenIndex];
+    componentInstance.childrenComponents?.deleteItem(ChildrenComponentFunction, key);
   }
 
   return Joy.create(ChildrenComponentFunction, props, {
     parentInstance: componentInstance,
+    key
   });
 }
 

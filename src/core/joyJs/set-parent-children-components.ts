@@ -1,9 +1,9 @@
 import { ComponentInstance } from '../types/core-types.ts';
+import { CacheKeyType, CacheManager } from './children-cache-manager.ts';
 
-export function setParentChildrenComponents(parentInstance: ComponentInstance, componentInstance: ComponentInstance) {
+export function setParentChildrenComponents(parentInstance: ComponentInstance, componentInstance: ComponentInstance, key?: CacheKeyType) {
   if (!parentInstance.childrenComponents)
-    parentInstance.childrenComponents = [];
+    parentInstance.childrenComponents = new CacheManager();
 
-  parentInstance.childrenComponents[parentInstance.childrenIndex] =
-    componentInstance;
+  parentInstance.childrenComponents.addItem(componentInstance, componentInstance.type, key)
 }

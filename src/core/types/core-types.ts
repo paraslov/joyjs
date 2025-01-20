@@ -1,3 +1,5 @@
+import { CacheKeyType, CacheManager } from '../joyJs/children-cache-manager.ts';
+
 export type JoyComponent<P = any> = ((props: P, options: { joy: ComponentJoy }) => any) & {
   render?: (
     options: RenderOptions
@@ -6,13 +8,15 @@ export type JoyComponent<P = any> = ((props: P, options: { joy: ComponentJoy }) 
 
 export type JoyProps = Record<string, any>;
 
+export type JoyCreateOptions = { parentInstance?: ParentInstance, key?: CacheKeyType }
+export type RenderJoyCreateOptions = Omit<JoyCreateOptions, 'parentInstance'>
+
 export type ComponentInstance = {
   renderJoy: RenderJoy;
   element: HTMLElement;
-  childrenComponents: ComponentInstance[];
+  childrenComponents: CacheManager<ComponentInstance>;
   cleanup?: () => void;
   props?: JoyProps;
-  childrenIndex: number;
   type: JoyComponent;
 };
 
@@ -25,7 +29,7 @@ export type ComponentJoy = {
 };
 
 export type RenderJoy = {
-  create: (ChildrenComponentFunction: JoyComponent, props?: any) => ComponentInstance,
+  create: (ChildrenComponentFunction: JoyComponent, props?: any, options?: RenderJoyCreateOptions) => ComponentInstance,
   refresh: RefreshFunction
 }
 
