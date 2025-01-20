@@ -32,7 +32,7 @@ TodolistComponent.render = ({ element, componentStates, joy }) => {
   };
   const addTask = (title: string) => {
     setTasks(
-      (prev: any) => [...prev, { id: prev.length + 1, title, isDone: false }]
+      (prev: any) => [...prev, { id: Date.now(), title, isDone: false }]
     );
   };
 
@@ -62,7 +62,7 @@ TodolistComponent.render = ({ element, componentStates, joy }) => {
       task,
       setIsDone,
       deleteTask
-    });
+    }, { key: task.id });
 
     element.append(taskInstance.element);
   }

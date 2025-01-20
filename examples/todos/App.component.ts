@@ -37,7 +37,7 @@ AppComponent.render = ({ element, componentStates, joy }) => {
 
   switch (page) {
     case 'counter': {
-      const counterInstance = joy.create(CounterComponent);
+      const counterInstance = joy.create(CounterComponent, {}, {key: Date.now()});
 
       element.append(counterInstance.element);
 
