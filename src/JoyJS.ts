@@ -1,4 +1,3 @@
-import { validateComponentFunction, validateComponentInstance, } from '../validations.js';
 import { useStateFactory } from './core/useState/useStateFactory.ts';
 import { renderComponent } from './core/joyJs/render-component.ts';
 import { refreshComponent } from './core/joyJs/refresh-component.ts';
@@ -13,6 +12,7 @@ import {
   ParentInstance,
   JoyProps
 } from './core/types/core-types.ts';
+import { validateComponentFunction, validateComponentInstance } from './core/validations/validations.ts';
 
 class JoyJS {
   create(
