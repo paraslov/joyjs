@@ -26,7 +26,7 @@ class JoyJS {
     const componentJoy: ComponentJoy = {
       useState: <T>(initialState: T) => {
         const refreshComponentFn = () => componentInstance.renderJoy.refresh();
-        return useStateFactory(initialState, componentStates, refreshComponentFn);
+        return useStateFactory<T>(initialState, componentStates, refreshComponentFn);
       },
     };
 

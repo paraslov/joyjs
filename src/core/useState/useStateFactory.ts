@@ -1,21 +1,31 @@
-import { ComponentStates, RefreshFunction } from '../types/core-types.ts';
+import {
+  ComponentStates,
+  ReducerType,
+  RefreshFunction,
+  SetStateFunction
+} from '../types/core-types.ts';
 
-export function useStateFactory(
-  initialState: unknown,
+export function useStateFactory<T>(
+  initialState: T,
   componentStates: ComponentStates,
   refreshComponent: RefreshFunction,
-) {
+): [T, SetStateFunction<T>] {
   const state = { value: initialState };
 
-  const setStateFunction = (newState) => {
-    if (typeof newState === 'function') {
-      state.value = newState(state.value);
+  const setStateFunction = (reducer: T | ReducerType<T>) => {
+    if (isReducer<T>(reducer)) {
+      state.value = reducer(state.value);
     } else {
-      state.value = newState;
+      state.value = reducer as T;
     }
+
     refreshComponent();
   };
 
   componentStates.push([state, setStateFunction]);
   return [state.value, setStateFunction];
+}
+
+function isReducer<T>(func: any): func is ReducerType<T> {
+  return typeof func === 'function';
 }

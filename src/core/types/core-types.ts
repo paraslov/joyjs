@@ -1,4 +1,4 @@
-export type JoyComponent<P = JoyProps> = ((props: P, options: { joy: ComponentJoy }) => any) & {
+export type JoyComponent<P = any> = ((props: P, options: { joy: ComponentJoy }) => any) & {
   render?: (
     options: RenderOptions
   ) => void;
@@ -18,13 +18,14 @@ export type ComponentInstance = {
 
 export type ParentInstance = ComponentInstance | null;
 
-type SetStateAction<T> = T | ((prevState: T) => T);
+export type ReducerType<T> = (newState: T) => T
+export type SetStateFunction<T> = (prevState: T | ReducerType<T>) => void;
 export type ComponentJoy = {
-  useState: <T>(initialState: T) => [T, (newState: SetStateAction<T>) => void];
+  useState: <T>(initialState: T) => [T, SetStateFunction<T>];
 };
 
 export type RenderJoy = {
-  create: (ChildrenComponentFunction: JoyComponent, props?: JoyProps) => ComponentInstance,
+  create: (ChildrenComponentFunction: JoyComponent, props?: any) => ComponentInstance,
   refresh: RefreshFunction
 }
 
@@ -34,6 +35,6 @@ export type ComponentStates = any[]
 type RenderOptions = {
   joy: RenderJoy,
   element: HTMLElement,
-  props?: JoyProps,
-  componentStates?: ComponentStates[],
+  componentStates: ComponentStates[],
+  props?: any,
 };

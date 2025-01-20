@@ -9,11 +9,19 @@ class CacheGroup<T> {
         this.cache.set(itemKey, item);
     }
 
-    getItem(key?: string | number): T | intrinsic {
+    getItem(key?: string | number): T | undefined {
         if (key !== undefined) {
             return this.cache.get(key);
         }
         return this.cache.values().next().value;
+    }
+
+    deleteItem(key: string | number): boolean {
+        return this.cache.delete(key);
+    }
+
+    isEmpty(): boolean {
+        return this.cache.size === 0;
     }
 
     *[Symbol.iterator](): IterableIterator<T> {
@@ -37,9 +45,33 @@ export class CacheManager<T> {
         currentGroup.addItem(item, key);
     }
 
-    getItem(type: any, key?: string | number): intrinsic | T | undefined {
+    getItem(type: any, key?: string | number): T | undefined {
         const currentGroup = this.groups.get(type);
         return currentGroup ? currentGroup.getItem(key) : undefined;
+    }
+
+    deleteItem(type: any, key: string | number): boolean {
+        const currentGroup = this.groups.get(type);
+        if (!currentGroup) return false;
+
+        const deleted = currentGroup.deleteItem(key);
+        if (deleted && currentGroup.isEmpty()) {
+            this.groups.delete(type);
+        }
+
+        return deleted;
+    }
+
+    hasGroup(type: any): boolean {
+        return this.groups.has(type);
+    }
+
+    clearGroup(type: any): boolean {
+        return this.groups.delete(type);
+    }
+
+    clearAll(): void {
+        this.groups.clear();
     }
 
     *[Symbol.iterator](): IterableIterator<T> {
