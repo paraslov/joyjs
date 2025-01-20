@@ -1,6 +1,6 @@
 import { JoyComponent } from '../../src/core/types/core-types';
 
-export const CounterComponent: JoyComponent = function(props, { joy }) {
+export const CounterComponent: JoyComponent = function(__, { joy }) {
   console.log('CounterComponent mount');
 
   const element = document.createElement('div');

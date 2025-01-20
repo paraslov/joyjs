@@ -3,7 +3,7 @@ import { FilterComponent } from './Filter.component';
 import { AddItemComponent } from './AddItem.component';
 import { JoyComponent } from '../../src/core/types/core-types';
 
-export const TodolistComponent: JoyComponent = function(props, { joy }) {
+export const TodolistComponent: JoyComponent = function(_, { joy }) {
   console.log('TodolistComponent mount');
 
   const element = document.createElement('ul');
@@ -18,29 +18,29 @@ export const TodolistComponent: JoyComponent = function(props, { joy }) {
   return {
     element
   };
-}
+};
 
 TodolistComponent.render = ({ element, componentStates, joy }) => {
   console.log('TodolistComponent render');
   const [tasks, setTasks] = componentStates[0];
   const [filter, setFilter] = componentStates[1];
 
-  const setIsDone = (taskId, isDone) => {
+  const setIsDone = (taskId: number, isDone: boolean) => {
     setTasks(
-      prev => prev.map((task) => (task.id === taskId ? { ...task, isDone } : task))
+      (prev: any) => prev.map((task: any) => (task.id === taskId ? { ...task, isDone } : task))
     );
   };
-  const addTask = (title) => {
+  const addTask = (title: string) => {
     setTasks(
-      prev => [...prev, { id: prev.length + 1, title, isDone: false }]
+      (prev: any) => [...prev, { id: prev.length + 1, title, isDone: false }]
     );
   };
 
-  const deleteTask = (taskId) => {
+  const deleteTask = (taskId: number) => {
     setTasks(
-      prev => prev.filter((t) => t.id !== taskId)
+      (prev: any) => prev.filter((t: any) => t.id !== taskId)
     );
-  }
+  };
 
   element.append('TODOLIST');
   const addItemInstance = joy.create(AddItemComponent, { addItem: addTask });
@@ -50,10 +50,10 @@ TodolistComponent.render = ({ element, componentStates, joy }) => {
 
   switch (filter) {
     case 'done':
-      tasksForRender = tasks.filter((t) => t.isDone);
+      tasksForRender = tasks.filter((t: any) => t.isDone);
       break;
     case 'todo':
-      tasksForRender = tasks.filter((t) => !t.isDone);
+      tasksForRender = tasks.filter((t: any) => !t.isDone);
   }
 
   for (let i = 0; i < tasksForRender.length; i++) {

@@ -1,6 +1,6 @@
 import { JoyComponent } from '../../src/core/types/core-types';
 
-type TaskComponentProps = {
+export type TaskComponentProps = {
   task: TaskType;
   setIsDone: () => void;
   deleteTask: () => void;
@@ -27,6 +27,7 @@ export const TaskComponent: JoyComponent<TaskComponentProps> = function(props) {
 
 TaskComponent.render = ({element, props}) => {
   console.log('TaskComponent render');
+  if (!props) return;
 
   element.append(props.task.title);
 

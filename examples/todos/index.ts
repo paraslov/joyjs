@@ -5,4 +5,4 @@ const rootElement = document.getElementById('root');
 
 const appInstance = Joy.create(AppComponent);
 
-rootElement.append(appInstance.element);
+rootElement?.append(appInstance.element);

@@ -2,7 +2,7 @@ import { CounterComponent } from './Counter.component';
 import { TodolistComponent } from './Todolist.component';
 import { JoyComponent } from '../../src/core/types/core-types';
 
-export const AppComponent: JoyComponent = function (props, { joy }) {
+export const AppComponent: JoyComponent = function (_, { joy }) {
   const element = document.createElement('div');
   joy.useState('todolist');
 
