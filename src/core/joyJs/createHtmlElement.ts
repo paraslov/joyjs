@@ -1,12 +1,20 @@
-interface HtmlElementProps {
+export type HtmlElementProps = {
   [key: string]: any;
-
   children?: (HTMLElement | string | number)[];
 }
 
-type DisabledElements = HTMLButtonElement | HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLFieldSetElement | HTMLOptGroupElement | HTMLOptionElement;
+export type TagNamesMap = keyof HTMLElementTagNameMap;
 
-export function createHtmlElement(tagName: keyof HTMLElementTagNameMap, props: HtmlElementProps = {}): HTMLElement {
+type DisabledElements =
+  HTMLButtonElement
+  | HTMLInputElement
+  | HTMLSelectElement
+  | HTMLTextAreaElement
+  | HTMLFieldSetElement
+  | HTMLOptGroupElement
+  | HTMLOptionElement;
+
+export function createHtmlElement(tagName: TagNamesMap, props: HtmlElementProps = {}): HTMLElement {
   const element = document.createElement(tagName);
 
   if (Array.isArray(props.children)) {
