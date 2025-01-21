@@ -6,7 +6,7 @@ import { JoyComponent } from '../../src/core/types/core-types';
 export const TodolistComponent: JoyComponent = function(_, { joy }) {
   console.log('TodolistComponent mount');
 
-  const element = document.createElement('ul');
+  joy.create('ul');
 
   joy.useState([
     { id: 1, title: 'Cat', isDone: false },
@@ -16,11 +16,11 @@ export const TodolistComponent: JoyComponent = function(_, { joy }) {
   joy.useState('all');
 
   return {
-    element
+    // element
   };
 };
 
-TodolistComponent.render = ({ element, componentStates, joy }) => {
+TodolistComponent.render = ({ componentStates, joy }) => {
   console.log('TodolistComponent render');
   const [tasks, setTasks] = componentStates[0];
   const [filter, setFilter] = componentStates[1];
@@ -42,9 +42,8 @@ TodolistComponent.render = ({ element, componentStates, joy }) => {
     );
   };
 
-  element.append('TODOLIST');
-  const addItemInstance = joy.create(AddItemComponent, { addItem: addTask });
-  element.append(addItemInstance.element);
+  joy.create('span', { children: ['TODOLIST'] });
+  joy.create(AddItemComponent, { addItem: addTask });
 
   let tasksForRender = tasks;
 
@@ -56,17 +55,12 @@ TodolistComponent.render = ({ element, componentStates, joy }) => {
       tasksForRender = tasks.filter((t: any) => !t.isDone);
   }
 
-  for (let i = 0; i < tasksForRender.length; i++) {
-    const task = tasksForRender[i];
-    const taskInstance = joy.create(TaskComponent, {
-      task,
-      setIsDone,
-      deleteTask
-    }, { key: task.id });
+  const mappedTasks = tasksForRender.map((task: any) => joy.create(TaskComponent, {
+    task,
+    setIsDone,
+    deleteTask
+  }, { key: task.id }));
 
-    element.append(taskInstance.element);
-  }
-
-  const filterInstance = joy.create(FilterComponent, { filter, setFilter });
-  element.append(filterInstance.element);
+  joy.create('ul', { children: mappedTasks });
+  joy.create(FilterComponent, { filter, setFilter })
 };
