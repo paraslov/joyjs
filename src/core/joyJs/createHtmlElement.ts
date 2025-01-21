@@ -4,6 +4,8 @@ interface HtmlElementProps {
   children?: (HTMLElement | string | number)[];
 }
 
+type DisabledElements = HTMLButtonElement | HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLFieldSetElement | HTMLOptGroupElement | HTMLOptionElement;
+
 export function createHtmlElement(tagName: keyof HTMLElementTagNameMap, props: HtmlElementProps = {}): HTMLElement {
   const element = document.createElement(tagName);
 
@@ -27,8 +29,8 @@ export function createHtmlElement(tagName: keyof HTMLElementTagNameMap, props: H
       (element as HTMLInputElement).checked = Boolean(props[key]);
     } else if (key === 'value' && (tagName === 'input' || tagName === 'textarea' || tagName === 'select')) {
       (element as HTMLInputElement | HTMLTextAreaElement).value = props[key];
-    } else if (key === 'disabled') {
-      (element as HTMLInputElement).disabled = Boolean(props[key]);
+    } else if (key === 'disabled' && 'disabled' in element) {
+      (element as DisabledElements).disabled = Boolean(props[key]);
     } else {
       element.setAttribute(key, props[key]);
     }
