@@ -1,4 +1,5 @@
 import { CacheKeyType, CacheManager } from '../joyJs/children-cache-manager.ts';
+import { TagNamesMap } from '../joyJs/createHtmlElement.ts';
 
 export type JoyComponent<P = any> = ((props: P, options: { joy: ComponentJoy }) => any) & {
   render?: (
@@ -26,10 +27,15 @@ export type ReducerType<T> = (newState: T) => T
 export type SetStateFunction<T> = (prevState: T | ReducerType<T>) => void;
 export type ComponentJoy = {
   useState: <T>(initialState: T) => [T, SetStateFunction<T>];
+  create: (tagName: TagNamesMap, props?: any) => HTMLElement;
 };
 
 export type RenderJoy = {
-  create: (ChildrenComponentFunction: JoyComponent, props?: any, options?: RenderJoyCreateOptions) => ComponentInstance,
+  create: <T extends TagNamesMap | JoyComponent>(
+    tagNameOrComponentFn: T,
+    props?: any,
+    options?: RenderJoyCreateOptions
+  ) => T extends TagNamesMap ? HTMLElement : ComponentInstance;
   refresh: RefreshFunction
 }
 
