@@ -1,4 +1,4 @@
-class JoyJsError extends Error {
+export class JoyJsError extends Error {
   constructor(message: string) {
     super(message);
   }

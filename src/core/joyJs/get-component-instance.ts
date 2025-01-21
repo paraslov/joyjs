@@ -1,4 +1,3 @@
-
 import { JoyComponent, ComponentInstance, ComponentJoy, JoyProps } from '../types/core-types.ts';
 
 export function getComponentInstance(ComponentFunction: JoyComponent, props: JoyProps, componentJoy: ComponentJoy): ComponentInstance {
