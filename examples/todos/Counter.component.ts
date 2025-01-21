@@ -2,8 +2,7 @@ import { JoyComponent } from '../../src/core/types/core-types';
 
 export const CounterComponent: JoyComponent = function(__, { joy }) {
   console.log('CounterComponent mount');
-
-  const element = document.createElement('div');
+  joy.create('div');
 
   const [_, setState] = joy.useState(1);
 
@@ -14,16 +13,15 @@ export const CounterComponent: JoyComponent = function(__, { joy }) {
   }, 1000);
 
   return {
-    element,
     cleanup: function () {
       clearInterval(interval);
     },
   };
 }
 
-CounterComponent.render = ({ element, componentStates }) => {
+CounterComponent.render = ({componentStates, joy }) => {
   const [state] = componentStates[0];
   console.log('CounterComponent render');
 
-  element.append(state);
+  joy.create('span', { children: [`Counter Component: ${state}`] });
 };

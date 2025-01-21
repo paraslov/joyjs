@@ -3,52 +3,37 @@ import { TodolistComponent } from './Todolist.component';
 import { JoyComponent } from '../../src/core/types/core-types';
 
 export const AppComponent: JoyComponent = function (_, { joy }) {
-  const element = document.createElement('div');
+  joy.create('div');
   joy.useState('todolist');
 
-  return {
-    element,
-  };
+  return {};
 };
 
-AppComponent.render = ({ element, componentStates, joy }) => {
+AppComponent.render = ({ componentStates, joy }) => {
   console.log('App render');
 
   const [page, setPage] = componentStates[0];
 
-  const pageSelector = document.createElement('select');
-
-  const counterPageOption = document.createElement('option');
-  counterPageOption.append('Counter Page');
-  counterPageOption.value = 'counter';
-
-  const todolistOption = document.createElement('option');
-  todolistOption.append('Todo List App');
-  todolistOption.value = 'todolist';
-
-  pageSelector.append(counterPageOption, todolistOption);
-  pageSelector.value = page;
-
-  element.append(pageSelector);
-
-  pageSelector.addEventListener('change', () => {
-    setPage(pageSelector.value);
+  joy.create('select', {
+    value: page,
+    children: [
+      joy.create('option', {
+        value: 'counter',
+        children: ['Counter Page']
+      }),
+      joy.create('option', {
+        value: 'todolist',
+        children: ['Todo List App']
+      }),
+    ],
+    onChange: (e: any) => {
+      setPage(e.target.value);
+    },
   });
 
-  switch (page) {
-    case 'counter': {
-      const counterInstance = joy.create(CounterComponent, {}, {key: Date.now()});
-
-      element.append(counterInstance.element);
-
-      break;
-    }
-    case 'todolist': {
-      const todolistInstance = joy.create(TodolistComponent);
-
-      element.append(todolistInstance.element);
-
-      break;
-    }
+  if (page === 'todolist') {
+    joy.create(TodolistComponent);
+  } else if (page === 'counter') {
+    joy.create(CounterComponent, {}, {key: Date.now()});
   }
 };
