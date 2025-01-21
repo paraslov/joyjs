@@ -6,6 +6,7 @@ beforeAll(() => {
 
 beforeEach(() => {
   // Add your globalbeforeEach logics
+  document.body.innerHTML = '';
 });
 
 afterAll(() => {
