@@ -1,29 +1,24 @@
 import { JoyComponent } from '../../src/core/types/core-types';
 
-export const AddItemComponent: JoyComponent = function(props) {
+export const AddItemComponent: JoyComponent = function(_, { joy }) {
   console.log('AddItemComponent mount');
+  joy.create('div');
 
-  const element = document.createElement('div');
-
-  return {
-    element,
-    props,
-  };
+  return {};
 }
 
-AddItemComponent.render = ({ element, props }) => {
+AddItemComponent.render = ({ props, joy }) => {
   console.log('AddItemComponent render');
-  const addItemInput = document.createElement('input');
-  addItemInput.type = 'text';
+  const addItemInputRef: any = joy.create('input', {
+    type: 'text',
+  });
 
-  const addItemButton = document.createElement('button');
-  addItemButton.type = 'button';
-  addItemButton.innerText = 'Add Item +';
-  addItemButton.addEventListener('click', () => {
-    props.addItem(addItemInput.value);
-    addItemInput.value = '';
-  })
-
-  element.appendChild(addItemInput);
-  element.appendChild(addItemButton);
+  joy.create('button', {
+    type: 'button',
+    children: ['Add Item +'],
+    onClick: () => {
+      props.addItem(addItemInputRef.value);
+      addItemInputRef.value = '';
+    }
+  });
 };

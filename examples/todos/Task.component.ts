@@ -12,40 +12,36 @@ type TaskType = {
   isDone: boolean;
 }
 
-export const TaskComponent: JoyComponent<TaskComponentProps> = function(props) {
+export const TaskComponent: JoyComponent<TaskComponentProps> = function(_, { joy }) {
   console.log('TaskComponent mount');
-  const element = document.createElement('li');
+  joy.create('li');
 
   return {
-    element,
-    props,
-    cleanup: function () {
+    cleanup: function() {
       console.log('task:execute:cleanup');
-    },
+    }
   };
-}
+};
 
-TaskComponent.render = ({element, props}) => {
+TaskComponent.render = ({ props, joy }) => {
   console.log('TaskComponent render');
   if (!props) return;
 
-  element.append(props.task.title);
+  joy.create('span', { children: [props.task.title] });
 
-  const isDoneElement = document.createElement('input');
-  isDoneElement.type = 'checkbox';
-  isDoneElement.checked = props.task.isDone;
-
-  isDoneElement.addEventListener('change', () => {
-    props.setIsDone(props.task.id, isDoneElement.checked);
+  joy.create('input', {
+    type: 'checkbox',
+    checked: props.task.isDone,
+    onChange: (e: any) => {
+      props.setIsDone(props.task.id, e.currentTarget.checked);
+    },
   });
 
-  const deleteTaskButton = document.createElement('button');
-  deleteTaskButton.innerText = 'x';
-
-  deleteTaskButton.addEventListener('click', () => {
-    props.deleteTask(props.task.id);
+  joy.create('button', {
+    type: 'button',
+    children: ['x'],
+    onClick: () => {
+      props.deleteTask(props.task.id);
+    }
   });
-
-  element.append(isDoneElement);
-  element.appendChild(deleteTaskButton);
 };

@@ -1,49 +1,46 @@
 import { JoyComponent } from '../../src/core/types/core-types';
 
-export const FilterComponent: JoyComponent = function(props) {
+export const FilterComponent: JoyComponent = function(_, { joy }) {
   console.log('FilterComponent mount');
+  joy.create('div');
 
-  const element = document.createElement('div');
-
-  return {
-    element,
-    props,
-  };
+  return {};
 }
 
-FilterComponent.render = ({ element, props }) => {
+FilterComponent.render = ({ props, joy }) => {
   console.log('FilterComponent render');
   const { filter, setFilter } = props;
 
-  const allButton = document.createElement('button');
-  allButton.innerText = 'All';
-  allButton.addEventListener('click', () => {
-    setFilter('all');
+  const allButtonRef = joy.create('button', {
+    children: ['All'],
+    onClick: () => {
+      setFilter('all');
+    }
   });
 
-  const doneButton = document.createElement('button');
-  doneButton.innerText = 'Done';
-  doneButton.addEventListener('click', () => {
-    setFilter('done');
+  const doneButtonRef = joy.create('button', {
+    children: ['Done'],
+    onClick: () => {
+      setFilter('done');
+    }
   });
 
-  const todoButton = document.createElement('button');
-  todoButton.innerText = 'Todo';
-  todoButton.addEventListener('click', () => {
-    setFilter('todo');
+  const todoButtonRef = joy.create('button', {
+    children: ['Todo'],
+    onClick: () => {
+      setFilter('todo');
+    }
   });
 
   switch (filter) {
     case 'all':
-      allButton.style.background = 'lightgreen';
+      allButtonRef.style.background = 'lightgreen';
       break;
     case 'done':
-      doneButton.style.background = 'lightgreen';
+      doneButtonRef.style.background = 'lightgreen';
       break;
     case 'todo':
-      todoButton.style.background = 'lightgreen';
+      todoButtonRef.style.background = 'lightgreen';
       break;
   }
-
-  element.append(allButton, doneButton, todoButton);
 };
