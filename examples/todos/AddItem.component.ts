@@ -1,6 +1,6 @@
 import { JoyComponent } from '../../src/core/types/core-types';
 
-export const AddItemComponent: JoyComponent = function(_, { joy }) {
+export const AddItemComponent: JoyComponent = function(_) {
   console.log('AddItemComponent mount');
 
   return {};

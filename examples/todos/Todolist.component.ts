@@ -3,7 +3,7 @@ import { FilterComponent } from './Filter.component';
 import { AddItemComponent } from './AddItem.component';
 import { JoyComponent } from '../../src/core/types/core-types';
 
-export const TodolistComponent: JoyComponent = function(_, { joy }) {
+export const TodolistComponent: JoyComponent = function(_) {
   console.log('TodolistComponent mount');
 
   return {

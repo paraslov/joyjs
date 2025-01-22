@@ -13,7 +13,7 @@ import {
   JoyProps,
   RenderJoyCreateOptions
 } from './core/types/core-types.ts';
-import { JoyJsError, validateComponentFunction, validateComponentInstance } from './core/validations/validations.ts';
+import { validateComponentFunction } from './core/validations/validations.ts';
 import { createHtmlElement, TagNamesMap } from './core/joyJs/createHtmlElement.ts';
 
 class JoyJS {

@@ -12,7 +12,7 @@ type TaskType = {
   isDone: boolean;
 }
 
-export const TaskComponent: JoyComponent<TaskComponentProps> = function(_, { joy }) {
+export const TaskComponent: JoyComponent<TaskComponentProps> = function(_) {
   console.log('TaskComponent mount');
 
 

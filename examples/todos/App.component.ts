@@ -2,13 +2,13 @@ import { CounterComponent } from './Counter.component';
 import { TodolistComponent } from './Todolist.component';
 import { JoyComponent } from '../../src/core/types/core-types';
 
-export const AppComponent: JoyComponent = function (_, { joy }) {
+export const AppComponent: JoyComponent = function (_) {
 
 
   return {};
 };
 
-AppComponent.render = ({ componentStates, joy }) => {
+AppComponent.render = ({ joy }) => {
   console.log('App render');
 
   joy._create('div');
