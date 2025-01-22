@@ -16,6 +16,8 @@ export type ComponentInstance = {
   renderJoy: RenderJoy;
   element: HTMLElement;
   childrenComponents: CacheManager<ComponentInstance>;
+  status: 'created' | 'mounted' | 'first-render' | 'other';
+  useStatesIndex: number;
   cleanup?: () => void;
   props?: JoyProps;
   type: JoyComponent;
@@ -27,7 +29,6 @@ export type ReducerType<T> = (newState: T) => T
 export type SetStateFunction<T> = (prevState: T | ReducerType<T>) => void;
 export type ComponentJoy = {
   useState: <T>(initialState: T) => [T, SetStateFunction<T>];
-  create: (tagName: TagNamesMap, props?: any) => HTMLElement;
 };
 
 export type RenderJoy = {
@@ -36,11 +37,13 @@ export type RenderJoy = {
     props?: any,
     options?: RenderJoyCreateOptions
   ) => T extends TagNamesMap ? HTMLElement : ComponentInstance;
-  refresh: RefreshFunction
+  refresh: RefreshFunction;
+  useState: <T>(initialState: T) => [T, SetStateFunction<T>];
+  _create: (tagName: TagNamesMap, props?: any) => HTMLElement;
 }
 
 export type RefreshFunction = () => void
-export type ComponentStates = any[]
+export type ComponentStates = Array<[any, SetStateFunction<any>]>
 
 type RenderOptions = {
   joy: RenderJoy,
