@@ -9,9 +9,9 @@ export function createChildComponent(
   props?: JoyProps,
   options?: { key?: CacheKeyType }
 ): ComponentInstance {
-  if (!componentInstance?.element) {
-    throw new Error('componentInstance.element is not defined.');
-  }
+  // if (!componentInstance?.element) {
+  //   throw new Error('componentInstance.element is not defined.');
+  // }
 
   const key = options?.key;
   const cachedComponentInstance = componentInstance.childrenComponents?.getItem(ChildrenComponentFunction, key);
