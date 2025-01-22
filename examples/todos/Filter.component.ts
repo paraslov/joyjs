@@ -2,13 +2,13 @@ import { JoyComponent } from '../../src/core/types/core-types';
 
 export const FilterComponent: JoyComponent = function(_, { joy }) {
   console.log('FilterComponent mount');
-  joy.create('div');
 
   return {};
 }
 
 FilterComponent.render = ({ props, joy }) => {
   console.log('FilterComponent render');
+  joy._create('div');
   const { filter, setFilter } = props;
 
   const allButtonRef = joy.create('button', {

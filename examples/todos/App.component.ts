@@ -3,8 +3,7 @@ import { TodolistComponent } from './Todolist.component';
 import { JoyComponent } from '../../src/core/types/core-types';
 
 export const AppComponent: JoyComponent = function (_, { joy }) {
-  joy.create('div');
-  joy.useState('todolist');
+
 
   return {};
 };
@@ -12,7 +11,8 @@ export const AppComponent: JoyComponent = function (_, { joy }) {
 AppComponent.render = ({ componentStates, joy }) => {
   console.log('App render');
 
-  const [page, setPage] = componentStates[0];
+  joy._create('div');
+  const [page, setPage] = joy.useState('todolist');
 
   joy.create('select', {
     value: page,

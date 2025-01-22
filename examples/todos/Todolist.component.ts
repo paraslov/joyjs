@@ -6,15 +6,6 @@ import { JoyComponent } from '../../src/core/types/core-types';
 export const TodolistComponent: JoyComponent = function(_, { joy }) {
   console.log('TodolistComponent mount');
 
-  joy.create('ul');
-
-  joy.useState([
-    { id: 1, title: 'Cat', isDone: false },
-    { id: 2, title: 'Kitty', isDone: true },
-    { id: 3, title: 'Pussy cat', isDone: true }
-  ]);
-  joy.useState('all');
-
   return {
     // element
   };
@@ -22,8 +13,14 @@ export const TodolistComponent: JoyComponent = function(_, { joy }) {
 
 TodolistComponent.render = ({ componentStates, joy }) => {
   console.log('TodolistComponent render');
-  const [tasks, setTasks] = componentStates[0];
-  const [filter, setFilter] = componentStates[1];
+  joy._create('ul');
+
+  const [tasks, setTasks] = joy.useState([
+    { id: 1, title: 'Cat', isDone: false },
+    { id: 2, title: 'Kitty', isDone: true },
+    { id: 3, title: 'Pussy cat', isDone: true }
+  ]);
+  const [filter, setFilter] = joy.useState('all');
 
   const setIsDone = (taskId: number, isDone: boolean) => {
     setTasks(

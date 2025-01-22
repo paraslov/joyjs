@@ -2,7 +2,6 @@ import { JoyComponent } from '../../src/core/types/core-types';
 
 export const CounterComponent: JoyComponent = function(__, { joy }) {
   console.log('CounterComponent mount');
-  joy.create('div');
 
   const [_, setState] = joy.useState(1);
 
@@ -20,6 +19,7 @@ export const CounterComponent: JoyComponent = function(__, { joy }) {
 }
 
 CounterComponent.render = ({componentStates, joy }) => {
+  joy._create('div');
   const [state] = componentStates[0];
   console.log('CounterComponent render');
 

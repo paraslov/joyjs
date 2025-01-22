@@ -14,7 +14,7 @@ type TaskType = {
 
 export const TaskComponent: JoyComponent<TaskComponentProps> = function(_, { joy }) {
   console.log('TaskComponent mount');
-  joy.create('li');
+
 
   return {
     cleanup: function() {
@@ -25,7 +25,7 @@ export const TaskComponent: JoyComponent<TaskComponentProps> = function(_, { joy
 
 TaskComponent.render = ({ props, joy }) => {
   console.log('TaskComponent render');
-  if (!props) return;
+  joy._create('li');
 
   joy.create('span', { children: [props.task.title] });
 
