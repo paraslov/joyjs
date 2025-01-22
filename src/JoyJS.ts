@@ -14,7 +14,7 @@ import {
   RenderJoyCreateOptions
 } from './core/types/core-types.ts';
 import { JoyJsError, validateComponentFunction, validateComponentInstance } from './core/validations/validations.ts';
-import { createHtmlElement } from './core/joyJs/createHtmlElement.ts';
+import { createHtmlElement, TagNamesMap } from './core/joyJs/createHtmlElement.ts';
 
 class JoyJS {
   create(
@@ -25,46 +25,54 @@ class JoyJS {
     validateComponentFunction(ComponentFunction);
 
     const componentStates: ComponentStates = [];
-    let componentRootElement: HTMLElement | null = null;
 
     const componentJoy: ComponentJoy = {
       useState<T>(initialState: T) {
         const refreshComponentFn = () => componentInstance.renderJoy.refresh();
         return useStateFactory<T>(initialState, componentStates, refreshComponentFn);
       },
-      create(tagName, props = {}) {
-        componentRootElement = createHtmlElement(tagName, props);
-        return componentRootElement;
-      }
     };
 
     const componentInstance = getComponentInstance(ComponentFunction, props, componentJoy);
-    if (!componentRootElement) {
-      throw new JoyJsError('You must call liba.create in your component function for creating root element: ' + ComponentFunction.name);
-    }
-    componentInstance.element = componentRootElement;
+
     componentInstance.props = props;
 
     componentInstance.renderJoy = {
       create(tagNameOrComponentFn, props: any = {}, options?: RenderJoyCreateOptions): any {
-        if (isJoyType(tagNameOrComponentFn)) {
+        if (isJoyFunctionType(tagNameOrComponentFn)) {
           const newComponent = createChildComponent(componentInstance, tagNameOrComponentFn, props, options);
-          componentRootElement?.append(newComponent.element);
+          componentInstance.element.append(newComponent.element);
 
           return newComponent;
-        } else {
+        } else if(isTagNameType(tagNameOrComponentFn)) {
           const newElement = createHtmlElement(tagNameOrComponentFn, props);
 
-          componentRootElement?.append(newElement);
+          componentInstance.element.append(newElement);
           return newElement;
         }
       },
       refresh() {
         refreshComponent(componentInstance, componentStates);
+      },
+      useState<T>(initialState: T) {
+        componentInstance.useStatesIndex++;
+
+        if (componentInstance.status === 'first-render') {
+          const refreshComponentFn = () => componentInstance.renderJoy.refresh();
+          return useStateFactory<T>(initialState, componentStates, refreshComponentFn);
+        } else {
+          const componentState = componentStates[componentInstance.useStatesIndex];
+          return [componentState[0].value, componentState[1]]
+        }
+      },
+      _create(tagName, props = {}) {
+        if (componentInstance.status === 'first-render') {
+          componentInstance.element = createHtmlElement(tagName, props);
+        }
+
+        return componentInstance.element;
       }
     };
-
-    validateComponentInstance(componentInstance);
 
     if (parentInstance) {
       setParentChildrenComponents(parentInstance, componentInstance, key);
@@ -77,6 +85,10 @@ class JoyJS {
 
 export const Joy = new JoyJS();
 
-function isJoyType(fnOrTag: unknown): fnOrTag is JoyComponent {
+function isJoyFunctionType(fnOrTag: unknown): fnOrTag is JoyComponent {
   return typeof fnOrTag === 'function';
+}
+
+function isTagNameType(fnOrTag: unknown): fnOrTag is TagNamesMap {
+  return typeof fnOrTag === 'string';
 }
