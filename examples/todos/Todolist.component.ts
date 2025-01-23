@@ -11,7 +11,7 @@ export const TodolistComponent: JoyComponent = function(_) {
   };
 };
 
-TodolistComponent.render = ({ componentStates, joy }) => {
+TodolistComponent.render = ({ joy }) => {
   console.log('TodolistComponent render');
   joy.createRoot('ul');
 

@@ -4,6 +4,7 @@ export function getComponentInstance(ComponentFunction: JoyComponent, props: Joy
   const componentInstance: ComponentInstance = ComponentFunction(props, { joy: componentJoy });
   componentInstance.type = ComponentFunction;
   componentInstance.status = 'created';
+  componentInstance.cleanups = [];
 
   return componentInstance;
 }

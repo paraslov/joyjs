@@ -3,25 +3,26 @@ import { JoyComponent } from '../../src/core/types/core-types';
 export const CounterComponent: JoyComponent = function(__, { joy }) {
   console.log('CounterComponent mount');
 
-  const [_, setState] = joy.useState(1);
-
-  const interval = setInterval(() => {
-    setState((prev) => {
-      return prev + 1;
-    });
-  }, 1000);
-
-  return {
-    cleanup: function () {
-      clearInterval(interval);
-    },
-  };
+  return {};
 }
 
 CounterComponent.render = ({componentStates, joy }) => {
-  joy.createRoot('div');
-  const [state] = componentStates[0];
   console.log('CounterComponent render');
+  joy.createRoot('div');
 
-  joy.create('span', { children: [`Counter Component: ${state}`] });
+  const [count, setCount] = joy.useState(1);
+
+  joy.useEffect(() => {
+    const interval = setInterval(() => {
+      setCount((prev) => {
+        return prev + 1;
+      });
+    }, 1000);
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
+  joy.create('span', { children: [`Counter Component: ${count}`] });
 };

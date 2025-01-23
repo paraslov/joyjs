@@ -12,6 +12,9 @@ export function refreshComponent(componentInstance: ComponentInstance, component
   if (componentInstance.childrenComponents) {
     for (const child of componentInstance.childrenComponents) {
       child.cleanup?.()
+      child.cleanups.forEach((cb) => {
+        cb?.()
+      })
     }
   }
 

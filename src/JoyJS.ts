@@ -69,6 +69,19 @@ class JoyJS {
           return [componentState[0].value, componentState[1]]
         }
       },
+      useEffect(cb, deps = []) {
+        componentInstance.useEffectsIndex++
+
+        if (componentInstance.status === 'first-render') {
+          const cleanupFn = cb()
+
+          if (cleanupFn) {
+            componentInstance.cleanups.push(cleanupFn)
+          }
+        } else {
+          // todo: deps analyze
+        }
+      },
       createRoot(tagName, props = {}) {
         if (componentInstance.status === 'first-render') {
           componentInstance.element = createHtmlElement(tagName, props);

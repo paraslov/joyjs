@@ -18,6 +18,8 @@ export type ComponentInstance = {
   childrenComponents: CacheManager<ComponentInstance>;
   status: 'created' | 'mounted' | 'first-render' | 'other';
   useStatesIndex: number;
+  useEffectsIndex: number;
+  cleanups: (() => void)[];
   cleanup?: () => void;
   props?: JoyProps;
   type: JoyComponent;
@@ -39,6 +41,7 @@ export type RenderJoy = {
   ) => T extends TagNamesMap ? HTMLElement : ComponentInstance;
   refresh: RefreshFunction;
   useState: <T>(initialState: T) => [T, SetStateFunction<T>];
+  useEffect: (cb: () => (() => void) | void, deps: any[]) => void;
   createRoot: (tagName: TagNamesMap, props?: any) => HTMLElement;
 }
 

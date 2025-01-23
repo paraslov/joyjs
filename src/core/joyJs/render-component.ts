@@ -2,6 +2,7 @@ import { ComponentInstance, ComponentStates } from '../types/core-types.ts';
 
 export function renderComponent(componentInstance: ComponentInstance, componentStates: ComponentStates) {
   componentInstance.useStatesIndex = -1;
+  componentInstance.useEffectsIndex = -1;
   if (componentInstance.status === 'created') {
     componentInstance.status = 'first-render';
   }
