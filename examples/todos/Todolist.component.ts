@@ -13,7 +13,7 @@ export const TodolistComponent: JoyComponent = function(_) {
 
 TodolistComponent.render = ({ componentStates, joy }) => {
   console.log('TodolistComponent render');
-  joy._create('ul');
+  joy.createRoot('ul');
 
   const [tasks, setTasks] = joy.useState([
     { id: 1, title: 'Cat', isDone: false },

@@ -8,7 +8,7 @@ export const AddItemComponent: JoyComponent = function(_) {
 
 AddItemComponent.render = ({ props, joy }) => {
   console.log('AddItemComponent render');
-  joy._create('div');
+  joy.createRoot('div');
   const addItemInputRef: any = joy.create('input', {
     type: 'text',
   });

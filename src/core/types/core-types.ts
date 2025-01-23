@@ -39,7 +39,7 @@ export type RenderJoy = {
   ) => T extends TagNamesMap ? HTMLElement : ComponentInstance;
   refresh: RefreshFunction;
   useState: <T>(initialState: T) => [T, SetStateFunction<T>];
-  _create: (tagName: TagNamesMap, props?: any) => HTMLElement;
+  createRoot: (tagName: TagNamesMap, props?: any) => HTMLElement;
 }
 
 export type RefreshFunction = () => void

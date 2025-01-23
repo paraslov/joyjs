@@ -11,7 +11,7 @@ export const AppComponent: JoyComponent = function (_) {
 AppComponent.render = ({ joy }) => {
   console.log('App render');
 
-  joy._create('div');
+  joy.createRoot('div');
   const [page, setPage] = joy.useState('todolist');
 
   joy.create('select', {

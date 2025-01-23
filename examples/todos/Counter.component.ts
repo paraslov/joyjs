@@ -19,7 +19,7 @@ export const CounterComponent: JoyComponent = function(__, { joy }) {
 }
 
 CounterComponent.render = ({componentStates, joy }) => {
-  joy._create('div');
+  joy.createRoot('div');
   const [state] = componentStates[0];
   console.log('CounterComponent render');
 

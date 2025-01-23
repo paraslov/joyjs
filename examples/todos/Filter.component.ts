@@ -8,7 +8,7 @@ export const FilterComponent: JoyComponent = function(_) {
 
 FilterComponent.render = ({ props, joy }) => {
   console.log('FilterComponent render');
-  joy._create('div');
+  joy.createRoot('div');
   const { filter, setFilter } = props;
 
   const allButtonRef = joy.create('button', {

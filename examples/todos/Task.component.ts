@@ -25,7 +25,7 @@ export const TaskComponent: JoyComponent<TaskComponentProps> = function(_) {
 
 TaskComponent.render = ({ props, joy }) => {
   console.log('TaskComponent render');
-  joy._create('li');
+  joy.createRoot('li');
 
   joy.create('span', { children: [props.task.title] });
 

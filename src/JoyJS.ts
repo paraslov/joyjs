@@ -13,7 +13,7 @@ import {
   JoyProps,
   RenderJoyCreateOptions
 } from './core/types/core-types.ts';
-import { validateComponentFunction } from './core/validations/validations.ts';
+import { JoyJsError, validateComponentFunction } from './core/validations/validations.ts';
 import { createHtmlElement, TagNamesMap } from './core/joyJs/createHtmlElement.ts';
 
 class JoyJS {
@@ -39,6 +39,10 @@ class JoyJS {
 
     componentInstance.renderJoy = {
       create(tagNameOrComponentFn, props: any = {}, options?: RenderJoyCreateOptions): any {
+        if (!componentInstance.element) {
+          new JoyJsError(`First you should render a root element (joy.createRoot(tagName)) in your component: ${ componentInstance.type.name }`);
+        }
+
         if (isJoyFunctionType(tagNameOrComponentFn)) {
           const newComponent = createChildComponent(componentInstance, tagNameOrComponentFn, props, options);
           componentInstance.element.append(newComponent.element);
@@ -65,7 +69,7 @@ class JoyJS {
           return [componentState[0].value, componentState[1]]
         }
       },
-      _create(tagName, props = {}) {
+      createRoot(tagName, props = {}) {
         if (componentInstance.status === 'first-render') {
           componentInstance.element = createHtmlElement(tagName, props);
         }
