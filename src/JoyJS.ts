@@ -47,7 +47,7 @@ class JoyJS {
         }
       },
       refresh() {
-        refreshComponent(componentInstance, componentStates);
+        refreshComponent(componentInstance);
       },
       useState<T>(initialState: T) {
         componentInstance.useStatesIndex++;
