@@ -1,12 +1,6 @@
 import { JoyComponent } from '../../src/core/types/core-types';
 
-export const CounterComponent: JoyComponent = function(__, { joy }) {
-  console.log('CounterComponent mount');
-
-  return {};
-}
-
-CounterComponent.render = ({componentStates, joy }) => {
+export const CounterComponent: JoyComponent = ({joy }) => {
   console.log('CounterComponent render');
   joy.createRoot('div');
 

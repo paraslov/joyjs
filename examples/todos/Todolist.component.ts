@@ -3,15 +3,7 @@ import { FilterComponent } from './Filter.component';
 import { AddItemComponent } from './AddItem.component';
 import { JoyComponent } from '../../src/core/types/core-types';
 
-export const TodolistComponent: JoyComponent = function(_) {
-  console.log('TodolistComponent mount');
-
-  return {
-    // element
-  };
-};
-
-TodolistComponent.render = ({ joy }) => {
+export const TodolistComponent: JoyComponent = ({ joy }) => {
   console.log('TodolistComponent render');
   joy.createRoot('ul');
 

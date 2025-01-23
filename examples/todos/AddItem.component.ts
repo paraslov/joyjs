@@ -1,12 +1,6 @@
 import { JoyComponent } from '../../src/core/types/core-types';
 
-export const AddItemComponent: JoyComponent = function(_) {
-  console.log('AddItemComponent mount');
-
-  return {};
-}
-
-AddItemComponent.render = ({ props, joy }) => {
+export const AddItemComponent: JoyComponent = ({ props, joy }) => {
   console.log('AddItemComponent render');
   joy.createRoot('div');
   const addItemInputRef: any = joy.create('input', {

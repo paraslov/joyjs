@@ -5,9 +5,8 @@ export class JoyJsError extends Error {
 }
 
 export function validateComponentFunction(componentFunction: any) {
-  if (typeof componentFunction.render !== 'function') {
-    throw new JoyJsError(`You must declare render method for your function component "${componentFunction.name}"
-Example: App.render = ({element, props, joy}) => {}`);
+  if (typeof componentFunction !== 'function') {
+    throw new JoyJsError(`Your component should be a function "${componentFunction.name}"`);
   }
 }
 

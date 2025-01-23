@@ -1,12 +1,6 @@
 import { JoyComponent } from '../../src/core/types/core-types';
 
-export const FilterComponent: JoyComponent = function(_) {
-  console.log('FilterComponent mount');
-
-  return {};
-}
-
-FilterComponent.render = ({ props, joy }) => {
+export const FilterComponent: JoyComponent = ({ props, joy }) => {
   console.log('FilterComponent render');
   joy.createRoot('div');
   const { filter, setFilter } = props;

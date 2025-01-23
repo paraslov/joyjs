@@ -2,7 +2,7 @@ import { JoyComponent } from '../../src/core/types/core-types';
 
 export type TaskComponentProps = {
   task: TaskType;
-  setIsDone: () => void;
+  setIsDone: (taskId: number, value: boolean) => void;
   deleteTask: () => void;
 }
 
@@ -12,18 +12,7 @@ type TaskType = {
   isDone: boolean;
 }
 
-export const TaskComponent: JoyComponent<TaskComponentProps> = function(_) {
-  console.log('TaskComponent mount');
-
-
-  return {
-    cleanup: function() {
-      console.log('task:execute:cleanup');
-    }
-  };
-};
-
-TaskComponent.render = ({ props, joy }) => {
+export const TaskComponent: JoyComponent<TaskComponentProps> = ({ props, joy }) => {
   console.log('TaskComponent render');
   joy.createRoot('li');
 
