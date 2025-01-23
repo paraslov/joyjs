@@ -24,7 +24,6 @@ class JoyJS {
     validateComponentFunction(ComponentFunction);
 
     const componentStates: ComponentStates = [];
-
     const componentInstance = getComponentInstance(ComponentFunction);
 
     componentInstance.props = props;
