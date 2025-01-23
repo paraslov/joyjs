@@ -6,7 +6,6 @@ import { setParentChildrenComponents } from './core/joyJs/set-parent-children-co
 import { getComponentInstance } from './core/joyJs/get-component-instance.ts';
 import {
   ComponentInstance,
-  ComponentJoy,
   ComponentStates,
   JoyComponent,
   JoyCreateOptions,
@@ -26,14 +25,7 @@ class JoyJS {
 
     const componentStates: ComponentStates = [];
 
-    const componentJoy: ComponentJoy = {
-      useState<T>(initialState: T) {
-        const refreshComponentFn = () => componentInstance.renderJoy.refresh();
-        return useStateFactory<T>(initialState, componentStates, refreshComponentFn);
-      },
-    };
-
-    const componentInstance = getComponentInstance(ComponentFunction, props, componentJoy);
+    const componentInstance = getComponentInstance(ComponentFunction);
 
     componentInstance.props = props;
 
@@ -48,7 +40,7 @@ class JoyJS {
           componentInstance.element.append(newComponent.element);
 
           return newComponent;
-        } else if(isTagNameType(tagNameOrComponentFn)) {
+        } else if (isTagNameType(tagNameOrComponentFn)) {
           const newElement = createHtmlElement(tagNameOrComponentFn, props);
 
           componentInstance.element.append(newElement);
@@ -66,17 +58,17 @@ class JoyJS {
           return useStateFactory<T>(initialState, componentStates, refreshComponentFn);
         } else {
           const componentState = componentStates[componentInstance.useStatesIndex];
-          return [componentState[0].value, componentState[1]]
+          return [componentState[0].value, componentState[1]];
         }
       },
       useEffect(cb, deps = []) {
-        componentInstance.useEffectsIndex++
+        componentInstance.useEffectsIndex++;
 
         if (componentInstance.status === 'first-render') {
-          const cleanupFn = cb()
+          const cleanupFn = cb();
 
           if (cleanupFn) {
-            componentInstance.cleanups.push(cleanupFn)
+            componentInstance.cleanups.push(cleanupFn);
           }
         } else {
           // todo: deps analyze
@@ -95,7 +87,7 @@ class JoyJS {
       setParentChildrenComponents(parentInstance, componentInstance, key);
     }
 
-    renderComponent(componentInstance, componentStates);
+    renderComponent(componentInstance);
     return componentInstance;
   }
 }

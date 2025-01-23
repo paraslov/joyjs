@@ -1,7 +1,7 @@
-import { JoyComponent, ComponentInstance, ComponentJoy, JoyProps } from '../types/core-types.ts';
+import { JoyComponent, ComponentInstance} from '../types/core-types.ts';
 
-export function getComponentInstance(ComponentFunction: JoyComponent, props: JoyProps, componentJoy: ComponentJoy): ComponentInstance {
-  const componentInstance: ComponentInstance = ComponentFunction(props, { joy: componentJoy });
+export function getComponentInstance(ComponentFunction: JoyComponent): ComponentInstance {
+  const componentInstance: ComponentInstance = {} as ComponentInstance;
   componentInstance.type = ComponentFunction;
   componentInstance.status = 'created';
   componentInstance.cleanups = [];
