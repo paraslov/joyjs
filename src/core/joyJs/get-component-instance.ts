@@ -5,6 +5,10 @@ export function getComponentInstance(ComponentFunction: JoyComponent): Component
   componentInstance.type = ComponentFunction;
   componentInstance.status = 'created';
   componentInstance.cleanups = [];
+  componentInstance.useEffectsInitialCount = 0;
+  componentInstance.useStatesInitialCount = 0;
+  componentInstance.useEffectsCurrentCount = 0;
+  componentInstance.useStatesCurrentCount = 0;
 
   return componentInstance;
 }

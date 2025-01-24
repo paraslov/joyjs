@@ -14,7 +14,11 @@ export type ComponentInstance = {
   childrenComponents: CacheManager<ComponentInstance>;
   status: 'created' | 'mounted' | 'first-render' | 'other';
   useStatesIndex: number;
+  useStatesInitialCount: number;
+  useStatesCurrentCount: number;
   useEffectsIndex: number;
+  useEffectsInitialCount: number;
+  useEffectsCurrentCount: number;
   prevDeps: any[];
   cleanups: (() => void)[];
   props?: JoyProps;

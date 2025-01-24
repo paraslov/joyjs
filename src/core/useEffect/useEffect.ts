@@ -11,9 +11,12 @@ export function useEffectFactory(componentInstance: ComponentInstance, cb: UseEf
   const prevDeps = componentInstance.prevDeps;
 
   if (componentInstance.status === 'first-render') {
+    componentInstance.useEffectsInitialCount++;
     runFirstRenderEffect(componentInstance, cb, deps, effectIndex);
     return;
   }
+
+  componentInstance.useEffectsCurrentCount++;
 
   const hasChanged = !prevDeps || deps.some((d, i) => d !== prevDeps[i]);
   if (hasChanged) {
