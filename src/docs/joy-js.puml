@@ -7,10 +7,12 @@ participant renderJoy
 
 
 index.ts -> JoyJs: create(ComponentFn)
-note over ComponentFn: provides renderJoy to ComponentFn.
 JoyJs -> ComponentFn: run ComponentFn(props, {renderJoy})
+note over ComponentFn: provides renderJoy to ComponentFn.
+JoyJs --> renderJoy
 ComponentFn -> componentInstance: initiate componentInstance
 componentInstance <-- renderJoy: useState()
+componentInstance <-- renderJoy: useEffect()
 componentInstance <-- renderJoy: createRoot(tag)
 componentInstance <-- renderJoy: create(tagOrComponentFn)
 componentInstance --> index.ts: append children to root element
