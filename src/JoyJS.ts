@@ -15,6 +15,8 @@ import {
 import { JoyJsError, validateComponentFunction } from './core/validations/validations.ts';
 import { createHtmlElement, TagNamesMap } from './core/joyJs/createHtmlElement.ts';
 import { useEffectFactory } from './core/useEffect/useEffect.ts';
+import { useStateGuard } from './core/validations/useStateGuard.ts';
+import { useEffectGuard } from './core/validations/useEffectGuard.ts';
 
 class JoyJS {
   create(
@@ -31,6 +33,11 @@ class JoyJS {
 
     componentInstance.renderJoy = {
       create(tagNameOrComponentFn, props: any = {}, options?: RenderJoyCreateOptions): any {
+        if (componentInstance.status !== 'first-render') {
+          useEffectGuard(componentInstance.useEffectsInitialCount, componentInstance.useEffectsCurrentCount, componentInstance.type.name);
+          useStateGuard(componentInstance.useStatesInitialCount, componentInstance.useStatesCurrentCount, componentInstance.type.name);
+        }
+
         if (!componentInstance.element) {
           new JoyJsError(`First you should render a root element (joy.createRoot(tagName)) in your component: ${ componentInstance.type.name }`);
         }
@@ -54,15 +61,19 @@ class JoyJS {
         componentInstance.useStatesIndex++;
 
         if (componentInstance.status === 'first-render') {
+          componentInstance.useStatesInitialCount++;
+
           const refreshComponentFn = () => componentInstance.renderJoy.refresh();
           return useStateFactory<T>(initialState, componentStates, refreshComponentFn);
         } else {
+          componentInstance.useStatesCurrentCount++;
+
           const componentState = componentStates[componentInstance.useStatesIndex];
-          return [componentState[0].value, componentState[1]];
+          return [componentState?.[0].value, componentState?.[1]];
         }
       },
       useEffect(cb, deps = []) {
-        useEffectFactory(componentInstance, cb, deps)
+        useEffectFactory(componentInstance, cb, deps);
       },
       createRoot(tagName, props = {}) {
         if (componentInstance.status === 'first-render') {
