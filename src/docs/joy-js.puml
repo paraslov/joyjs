@@ -10,7 +10,7 @@ index.ts -> JoyJs: create(ComponentFn)
 JoyJs -> ComponentFn: run ComponentFn(props, {renderJoy})
 note over ComponentFn: provides renderJoy to ComponentFn.
 JoyJs --> renderJoy
-ComponentFn -> componentInstance: initiate componentInstance
+JoyJs -> componentInstance: initiate componentInstance
 componentInstance <-- renderJoy: useState()
 componentInstance <-- renderJoy: useEffect()
 componentInstance <-- renderJoy: createRoot(tag)
