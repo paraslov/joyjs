@@ -5,7 +5,7 @@ participant ComponentFn
 participant componentInstance
 participant renderJoy
 
-
+note over renderJoy: used inside ComponentFn
 index.ts -> JoyJs: create(ComponentFn)
 JoyJs -> ComponentFn: run ComponentFn(props, {renderJoy})
 note over ComponentFn: provides renderJoy to ComponentFn.
