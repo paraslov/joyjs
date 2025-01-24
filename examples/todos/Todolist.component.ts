@@ -5,8 +5,6 @@ import { JoyComponent } from '../../src/core/types/core-types';
 
 export const TodolistComponent: JoyComponent = ({ joy }) => {
   console.log('TodolistComponent render');
-  joy.createRoot('ul');
-
   const [tasks, setTasks] = joy.useState([
     { id: 1, title: 'Cat', isDone: false },
     { id: 2, title: 'Kitty', isDone: true },
@@ -31,6 +29,7 @@ export const TodolistComponent: JoyComponent = ({ joy }) => {
     );
   };
 
+  joy.createRoot('ul');
   joy.create('span', { children: ['TODOLIST'] });
   joy.create(AddItemComponent, { addItem: addTask });
 
