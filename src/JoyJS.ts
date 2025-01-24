@@ -14,6 +14,7 @@ import {
 } from './core/types/core-types.ts';
 import { JoyJsError, validateComponentFunction } from './core/validations/validations.ts';
 import { createHtmlElement, TagNamesMap } from './core/joyJs/createHtmlElement.ts';
+import { useEffectFactory } from './core/useEffect/useEffect.ts';
 
 class JoyJS {
   create(
@@ -61,17 +62,7 @@ class JoyJS {
         }
       },
       useEffect(cb, deps = []) {
-        componentInstance.useEffectsIndex++;
-
-        if (componentInstance.status === 'first-render') {
-          const cleanupFn = cb();
-
-          if (cleanupFn) {
-            componentInstance.cleanups.push(cleanupFn);
-          }
-        } else {
-          // todo: deps analyze
-        }
+        useEffectFactory(componentInstance, cb, deps)
       },
       createRoot(tagName, props = {}) {
         if (componentInstance.status === 'first-render') {

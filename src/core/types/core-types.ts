@@ -15,6 +15,7 @@ export type ComponentInstance = {
   status: 'created' | 'mounted' | 'first-render' | 'other';
   useStatesIndex: number;
   useEffectsIndex: number;
+  prevDeps: any[];
   cleanups: (() => void)[];
   props?: JoyProps;
   type: JoyComponent;
@@ -24,6 +25,7 @@ export type ParentInstance = ComponentInstance | null;
 
 export type ReducerType<T> = (newState: T) => T
 export type SetStateFunction<T> = (prevState: T | ReducerType<T>) => void;
+export type UseEffectCallbackFn = () => (() => void) | void
 
 export type RenderJoy = {
   create: <T extends TagNamesMap | JoyComponent>(
@@ -33,7 +35,7 @@ export type RenderJoy = {
   ) => T extends TagNamesMap ? HTMLElement : ComponentInstance;
   refresh: RefreshFunction;
   useState: <T>(initialState: T) => [T, SetStateFunction<T>];
-  useEffect: (cb: () => (() => void) | void, deps: any[]) => void;
+  useEffect: (cb: UseEffectCallbackFn, deps: any[]) => void;
   createRoot: (tagName: TagNamesMap, props?: any) => HTMLElement;
 }
 
