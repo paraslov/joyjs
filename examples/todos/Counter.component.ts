@@ -2,10 +2,9 @@ import { JoyComponent } from '../../src/core/types/core-types';
 
 export const CounterComponent: JoyComponent = ({joy }) => {
   console.log('CounterComponent render');
-  joy.createRoot('div');
 
+  // state
   const [count, setCount] = joy.useState(1);
-
   joy.useEffect(() => {
     const interval = setInterval(() => {
       setCount((prev) => {
@@ -18,5 +17,7 @@ export const CounterComponent: JoyComponent = ({joy }) => {
     }
   }, [])
 
+  // elements
+  joy.createRoot('div');
   joy.create('span', { children: [`Counter Component: ${count}`] });
 };

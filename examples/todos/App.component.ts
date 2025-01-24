@@ -4,10 +4,11 @@ import { JoyComponent } from '../../src/core/types/core-types';
 
 export const AppComponent: JoyComponent = ({ joy }) => {
   console.log('App render');
-
-  joy.createRoot('div');
+  // state
   const [page, setPage] = joy.useState('todolist');
 
+  // elements
+  joy.createRoot('div');
   joy.create('select', {
     value: page,
     children: [
@@ -28,6 +29,6 @@ export const AppComponent: JoyComponent = ({ joy }) => {
   if (page === 'todolist') {
     joy.create(TodolistComponent);
   } else if (page === 'counter') {
-    joy.create(CounterComponent, {}, {key: Date.now()});
+    joy.create(CounterComponent, {}, { key: Date.now() });
   }
 };

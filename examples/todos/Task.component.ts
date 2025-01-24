@@ -17,7 +17,6 @@ export const TaskComponent: JoyComponent<TaskComponentProps> = ({ props, joy }) 
   joy.createRoot('li');
 
   joy.create('span', { children: [props.task.title] });
-
   joy.create('input', {
     type: 'checkbox',
     checked: props.task.isDone,
@@ -25,7 +24,6 @@ export const TaskComponent: JoyComponent<TaskComponentProps> = ({ props, joy }) 
       props.setIsDone(props.task.id, e.currentTarget.checked);
     },
   });
-
   joy.create('button', {
     type: 'button',
     children: ['x'],
